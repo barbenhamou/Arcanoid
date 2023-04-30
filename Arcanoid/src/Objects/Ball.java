@@ -1,6 +1,8 @@
 package Objects;
 import AbstractShapes.Point;
 import Utils.Velocity;
+import Utils.UtilsFunctions;
+import java.awt.Color;
 import biuoop.DrawSurface;
 
 /**
@@ -9,7 +11,7 @@ import biuoop.DrawSurface;
 public class Ball {
     private final int r;
     private Point center;
-    private java.awt.Color color;
+    private Color color;
     private Velocity velocity;
 
     static final double COMPARISON_THRESHOLD = 0.0001;
@@ -21,7 +23,7 @@ public class Ball {
      * @param r
      * @param color
      */
-    public Ball(Point center, int r, java.awt.Color color) {
+    public Ball(Point center, int r, Color color) {
         this.r = r;
         this.center = center;
         this.color = color;
@@ -61,7 +63,7 @@ public class Ball {
      *
      * @param color
      */
-    public void setColor(java.awt.Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -97,7 +99,7 @@ public class Ball {
      *
      * @return the color of the ball
      */
-    public java.awt.Color getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -126,7 +128,7 @@ public class Ball {
      */
     public void drawOn(DrawSurface surface) {
         surface.fillCircle((int) Math.round(getX()), (int) Math.round(getY()),
-                (int) Math.round(r));
+                Math.round(r));
     }
 
     /**
@@ -134,20 +136,6 @@ public class Ball {
      */
     public void moveOneStep() {
         this.center = velocity.applyToPoint(this.center);
-    }
-
-    /**
-     * Changing x-position of the ball.
-     */
-    public void moveOneXStep() {
-        this.center = velocity.applyXToPoint(this.center);
-    }
-
-    /**
-     * Changing y-position of the ball.
-     */
-    public void moveOneYStep() {
-        this.center = velocity.applyYToPoint(this.center);
     }
 
     /**
@@ -164,13 +152,13 @@ public class Ball {
         double currDx = velocity.getDx();
         double currDy = velocity.getDy();
 
-        if (doubleCompare(getX() - r, lowerBound1) == 1
-                || doubleCompare(upperBound1, getX() + r) == 1) {
+        if (UtilsFunctions.approxiEquals(getX() - r, lowerBound1)
+                || UtilsFunctions.approxiEquals(upperBound1, getX() + r)) {
             velocity.setDx(-currDx);
         }
 
-        if (doubleCompare(getY() - r, lowerBound2) == 1
-                || doubleCompare(upperBound2, getY() + r) == 1) {
+        if (UtilsFunctions.approxiEquals(getY() - r, lowerBound2)
+                || UtilsFunctions.approxiEquals(upperBound2, getY() + r)) {
             velocity.setDy(-currDy);
         }
 
@@ -198,7 +186,7 @@ public class Ball {
     /**
      * adjusting the velocity.
      *
-     * @param task the tsak number
+     * @param task the task number
      */
 
     public void adjustVelocity(int task) {
@@ -209,16 +197,5 @@ public class Ball {
         double dx = 15 + 1 / r;
         double dy = 15 + 1 / r;
         velocity = new Velocity(dx, dy);
-    }
-
-    /**
-     * Compare two doubles with threshold.
-     *
-     * @param a
-     * @param b
-     * @return whether a<=b
-     */
-    public static int doubleCompare(double a, double b) {
-        return a - b <= COMPARISON_THRESHOLD ? 1 : 0;
     }
 }
