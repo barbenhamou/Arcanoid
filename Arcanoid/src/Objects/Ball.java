@@ -1,5 +1,6 @@
 package Objects;
 import AbstractShapes.Point;
+import Game.GameEnvironment;
 import Utils.Velocity;
 import Utils.UtilsFunctions;
 import java.awt.Color;
@@ -14,7 +15,7 @@ public class Ball {
     private Color color;
     private Velocity velocity;
 
-    static final double COMPARISON_THRESHOLD = 0.0001;
+    private GameEnvironment gameEnvironment;
 
     /**
      * Constructor.
@@ -23,10 +24,11 @@ public class Ball {
      * @param r
      * @param color
      */
-    public Ball(Point center, int r, Color color) {
+    public Ball(Point center, int r, Color color, GameEnvironment gameEnvironment) {
         this.r = r;
         this.center = center;
         this.color = color;
+        this.gameEnvironment = gameEnvironment;
     }
 
     /**

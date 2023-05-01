@@ -12,12 +12,19 @@ public class CollisionInfo {
         this.collisionPoint = collisionPoint;
         this.collisionObj = collidable;
     }
-    // the point at which the collision occurs.
+
+    /**
+     * The point at which the collision occurs.
+     * @return the point of collision.
+     */
     public Point collisionPoint() {
         return collisionPoint;
     }
 
-    // the collidable object involved in the collision.
+    /**
+     * the collidable object involved in the collision.
+     * @return the collision object.
+     */
     public Collidable collisionObject() {
         return collisionObj;
     }
