@@ -42,9 +42,6 @@ public class Block implements Collidable{
             || UtilsFunctions.approxiEquals(collisionPoint.getX(),
                 block.getUpperRight().getX() - block.width())) {
             dx *= -1;
-            System.out.println("in x");
-            System.out.println(collisionPoint.getX());
-            System.out.println(block.getUpperRight().getX());
         }
 
         if(UtilsFunctions.approxiEquals(collisionPoint.getY(),
@@ -52,9 +49,6 @@ public class Block implements Collidable{
                 || UtilsFunctions.approxiEquals(collisionPoint.getY(),
                 block.getLowerLeft().getY() - block.height())) {
             dy *= -1;
-            System.out.println("in y");
-            System.out.println(collisionPoint.getY());
-            System.out.println(block.getLowerLeft().getY());
         }
         return new Velocity(dx, dy);
     }
