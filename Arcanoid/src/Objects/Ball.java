@@ -3,9 +3,10 @@ package Objects;
 import AbstractShapes.Line;
 import AbstractShapes.Point;
 import Game.CollisionInfo;
+import Game.Game;
 import Game.GameEnvironment;
+import Game.InGameObject;
 import Utils.Velocity;
-import Utils.UtilsFunctions;
 
 import java.awt.Color;
 
@@ -14,7 +15,7 @@ import biuoop.DrawSurface;
 /**
  * A representation of Ball.
  */
-public class Ball {
+public class Ball implements Sprite, InGameObject {
     private final int r;
     private Point center;
     private Color color;
@@ -152,27 +153,19 @@ public class Ball {
     }
 
     /**
-     * Changing positions of the ball, another function so the previous one
-     * stamp wouldn't change.
-     *
-     * @param upperBound1 max horizontal value
-     * @param upperBound2 max vertical value
-     * @param lowerBound1 min horizontal value
-     * @param lowerBound2 min vertical value
+     * Each time unit it's the ball is notified and move one step.
      */
-    public void moveOneStepHelper(int upperBound1, int upperBound2, int lowerBound1, int lowerBound2) {
-        double currDx = velocity.getDx();
-        double currDy = velocity.getDy();
-
-        if (UtilsFunctions.approxiEquals(getX() - r, lowerBound1) || UtilsFunctions.approxiEquals(upperBound1, getX() + r)) {
-            velocity.setDx(-currDx);
-        }
-
-        if (UtilsFunctions.approxiEquals(getY() - r, lowerBound2) || UtilsFunctions.approxiEquals(upperBound2, getY() + r)) {
-            velocity.setDy(-currDy);
-        }
-
+    public void timePassed() {
         moveOneStep();
+    }
+
+    /**
+     * Add the ball to the sprite list.<br>
+     *
+     * @param g the game object.
+     */
+    public void addToGame(Game g) {
+        g.addSprite(this);
     }
 
     /**
@@ -196,7 +189,6 @@ public class Ball {
      *
      * @param task the task number
      */
-
     public void adjustVelocity(int task) {
         double r = getSize();
         if (r > 50 && task == 3) {

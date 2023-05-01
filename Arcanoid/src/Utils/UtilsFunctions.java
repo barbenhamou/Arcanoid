@@ -5,7 +5,7 @@ package Utils;
  * */
 public class UtilsFunctions {
 
-    public static double THERSHOLD = 0.00000001;
+    public static double THRESHOLD = 0.00000001;
     /**
      * Does a comparison between doubles. <br>
      * @param a
@@ -13,6 +13,6 @@ public class UtilsFunctions {
      * @return wither a<=b approximately.
      * */
     public static boolean approxiEquals(double a, double b) {
-        return Math.abs(a - b) <= THERSHOLD;
+        return Math.abs(a - b) <= THRESHOLD;
     }
 }

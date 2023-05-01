@@ -20,11 +20,4 @@ public interface Collidable  {
      * @return the new velocity after collision.
      **/
     Velocity hit(Point collisionPoint, Velocity currentVelocity);
-
-
-    /**
-     * Draw the object.
-     * @param d the drawing tool.
-     **/
-    void draw(DrawSurface d);
 }
