@@ -46,6 +46,27 @@ public class Block implements Collidable, Sprite, InGameObject {
         double dx = currentVelocity.getDx();
         double dy = currentVelocity.getDy();
 
+        if (UtilsFunctions.approxiEquals(collisionPoint.getX() ,
+                block.getUpperLeft().getX() + block.width())
+                || UtilsFunctions.approxiEquals(collisionPoint.getX(),
+                block.getUpperRight().getX() - block.width())) {
+            dx *= -1;
+        }
+
+        else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
+                block.getUpperLeft().getY() + block.height())
+                || UtilsFunctions.approxiEquals(collisionPoint.getY(),
+                block.getLowerLeft().getY() - block.height())) {
+            dy *= -1;
+        }
+        return new Velocity(dx, dy);
+    }
+
+    public Velocity hit1(Ball b, Point collisionPoint,
+                        Velocity currentVelocity) {
+        double dx = currentVelocity.getDx();
+        double dy = currentVelocity.getDy();
+
         if (UtilsFunctions.approxiEquals(collisionPoint.getX(),
                 block.getUpperLeft().getX() + block.width())
                 || UtilsFunctions.approxiEquals(collisionPoint.getX(),
@@ -53,7 +74,7 @@ public class Block implements Collidable, Sprite, InGameObject {
             dx *= -1;
         }
 
-        if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
+        else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
                 block.getUpperLeft().getY() + block.height())
                 || UtilsFunctions.approxiEquals(collisionPoint.getY(),
                 block.getLowerLeft().getY() - block.height())) {
