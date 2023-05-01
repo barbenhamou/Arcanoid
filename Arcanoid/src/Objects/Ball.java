@@ -1,9 +1,13 @@
 package Objects;
+
+import AbstractShapes.Line;
 import AbstractShapes.Point;
 import Game.GameEnvironment;
 import Utils.Velocity;
 import Utils.UtilsFunctions;
+
 import java.awt.Color;
+
 import biuoop.DrawSurface;
 
 /**
@@ -15,7 +19,7 @@ public class Ball {
     private Color color;
     private Velocity velocity;
 
-    private GameEnvironment gameEnvironment;
+    private final GameEnvironment gameEnvironment;
 
     /**
      * Constructor.
@@ -23,6 +27,7 @@ public class Ball {
      * @param center
      * @param r
      * @param color
+     * @param gameEnvironment
      */
     public Ball(Point center, int r, Color color, GameEnvironment gameEnvironment) {
         this.r = r;
@@ -170,7 +175,7 @@ public class Ball {
     /**
      * If the center is not well initialized, it gets fixed.
      *
-     * @param upperBound  min horizontal value
+     * @param upperBound min horizontal value
      * @param lowerBound min vertical value
      */
     public void fixCenter(int upperBound, int lowerBound) {
@@ -199,5 +204,14 @@ public class Ball {
         double dx = 15 + 1 / r;
         double dy = 15 + 1 / r;
         velocity = new Velocity(dx, dy);
+    }
+
+    public Line getTrajectory(int bound) {
+        Point start = new Point(center.getX(), center.getY());
+        if(velocity.getDy() == 0) {
+        double dt = (bound - center.getY()) / velocity.getDy();
+        double x = getX() + velocity.getDx() * dt;
+        Point end = new Point(x, bound);
+        return new Line(start, end);
     }
 }
