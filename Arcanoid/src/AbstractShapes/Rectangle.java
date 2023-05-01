@@ -48,6 +48,20 @@ public class Rectangle {
     }
 
     /**
+     * Getter for the height of the rectangle.
+     * */
+    public double height() {
+        return height;
+    }
+
+    /**
+     * Getter for the width of the rectangle.
+     * */
+    public double width() {
+        return width;
+    }
+
+    /**
      * name: intersectionPoints.<br>
      * @param line the line that is getting checked for intersections.
      * @return list of all intersections.

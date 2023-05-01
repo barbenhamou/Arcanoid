@@ -2,6 +2,7 @@ package Objects;
 
 import AbstractShapes.Line;
 import AbstractShapes.Point;
+import Game.CollisionInfo;
 import Game.GameEnvironment;
 import Utils.Velocity;
 import Utils.UtilsFunctions;
@@ -19,7 +20,7 @@ public class Ball {
     private Color color;
     private Velocity velocity;
 
-    private final GameEnvironment gameEnvironment;
+    private final GameEnvironment environment;
 
     /**
      * Constructor.
@@ -27,13 +28,13 @@ public class Ball {
      * @param center
      * @param r
      * @param color
-     * @param gameEnvironment
+     * @param environment
      */
-    public Ball(Point center, int r, Color color, GameEnvironment gameEnvironment) {
+    public Ball(Point center, int r, Color color, GameEnvironment environment) {
         this.r = r;
         this.center = center;
         this.color = color;
-        this.gameEnvironment = gameEnvironment;
+        this.environment = environment;
     }
 
     /**
@@ -134,14 +135,19 @@ public class Ball {
      * @param surface - the interface pointer that is used for the drawing
      */
     public void drawOn(DrawSurface surface) {
-        surface.fillCircle((int) Math.round(getX()), (int) Math.round(getY()),
-                Math.round(r));
+        surface.setColor(color);
+        surface.fillCircle((int) Math.round(getX()), (int) Math.round(getY()), Math.round(r));
     }
 
     /**
      * Changing positions of the ball.
      */
     public void moveOneStep() {
+        Line trajectory = new Line(center, velocity.applyToPoint(center));
+        CollisionInfo collisionInfo = environment.getClosestCollision(trajectory);
+        if (collisionInfo != null) {
+            velocity = collisionInfo.collisionObject().hit(collisionInfo.collisionPoint(), velocity);
+        }
         this.center = velocity.applyToPoint(this.center);
     }
 
@@ -154,18 +160,15 @@ public class Ball {
      * @param lowerBound1 min horizontal value
      * @param lowerBound2 min vertical value
      */
-    public void moveOneStepHelper(int upperBound1, int upperBound2,
-                                  int lowerBound1, int lowerBound2) {
+    public void moveOneStepHelper(int upperBound1, int upperBound2, int lowerBound1, int lowerBound2) {
         double currDx = velocity.getDx();
         double currDy = velocity.getDy();
 
-        if (UtilsFunctions.approxiEquals(getX() - r, lowerBound1)
-                || UtilsFunctions.approxiEquals(upperBound1, getX() + r)) {
+        if (UtilsFunctions.approxiEquals(getX() - r, lowerBound1) || UtilsFunctions.approxiEquals(upperBound1, getX() + r)) {
             velocity.setDx(-currDx);
         }
 
-        if (UtilsFunctions.approxiEquals(getY() - r, lowerBound2)
-                || UtilsFunctions.approxiEquals(upperBound2, getY() + r)) {
+        if (UtilsFunctions.approxiEquals(getY() - r, lowerBound2) || UtilsFunctions.approxiEquals(upperBound2, getY() + r)) {
             velocity.setDy(-currDy);
         }
 
@@ -180,13 +183,11 @@ public class Ball {
      */
     public void fixCenter(int upperBound, int lowerBound) {
         if (getX() - lowerBound <= r || upperBound - getX() <= r) {
-            setCenter((upperBound + lowerBound) / 2.0,
-                    (upperBound + lowerBound) / 2.0);
+            setCenter((upperBound + lowerBound) / 2.0, (upperBound + lowerBound) / 2.0);
         }
 
         if (getY() - lowerBound <= r || upperBound - getY() <= r) {
-            setCenter((upperBound + lowerBound) / 2.0,
-                    (upperBound + lowerBound) / 2.0);
+            setCenter((upperBound + lowerBound) / 2.0, (upperBound + lowerBound) / 2.0);
         }
     }
 
@@ -204,14 +205,5 @@ public class Ball {
         double dx = 15 + 1 / r;
         double dy = 15 + 1 / r;
         velocity = new Velocity(dx, dy);
-    }
-
-    public Line getTrajectory(int bound) {
-        Point start = new Point(center.getX(), center.getY());
-        if(velocity.getDy() == 0) {
-        double dt = (bound - center.getY()) / velocity.getDy();
-        double x = getX() + velocity.getDx() * dt;
-        Point end = new Point(x, bound);
-        return new Line(start, end);
     }
 }

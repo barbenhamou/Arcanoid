@@ -13,6 +13,6 @@ public class UtilsFunctions {
      * @return wither a<=b approximately.
      * */
     public static boolean approxiEquals(double a, double b) {
-        return a - b <= THERSHOLD;
+        return Math.abs(a - b) <= THERSHOLD;
     }
 }

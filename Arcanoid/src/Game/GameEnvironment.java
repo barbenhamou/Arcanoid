@@ -28,6 +28,10 @@ public class GameEnvironment {
         this.collidables.add(c);
     }
 
+    public List<Collidable> getCollidables() {
+        return collidables;
+    }
+
     /**
      * @param trajectory the trajectory of the ball.
      * @return collisionInfo - the closest collision point and object.
