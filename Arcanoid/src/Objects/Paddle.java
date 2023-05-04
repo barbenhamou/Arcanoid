@@ -40,7 +40,7 @@ public class Paddle implements Sprite, Collidable, InGameObject {
      * Moves the paddle left.
      */
     public void moveLeft() {
-        Point newUpperLeft = rect.getUpperLeft().addPoint(dx, 0);
+        Point newUpperLeft = rect.getUpperLeft().addPoint(-dx, 0);
         if (newUpperLeft.getX() < Constants.BLOCK_THICKNESS) {
             return;
         }
@@ -51,7 +51,7 @@ public class Paddle implements Sprite, Collidable, InGameObject {
      * Moves the paddle right.
      */
     public void moveRight() {
-        Point newUpperRight = rect.getUpperLeft().addPoint(-dx, 0);
+        Point newUpperRight = rect.getUpperLeft().addPoint(dx, 0);
         if (newUpperRight.getX() >= Constants.WIDTH - Constants.BLOCK_THICKNESS) {
             return;
         }

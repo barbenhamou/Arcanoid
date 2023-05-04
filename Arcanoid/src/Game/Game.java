@@ -2,12 +2,10 @@ package Game;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
-import Objects.Ball;
-import Objects.Block;
-import Objects.Collidable;
-import Objects.Sprite;
+import Objects.*;
 import biuoop.DrawSurface;
 import biuoop.GUI;
+import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
 import Utils.Constants;
 
@@ -67,9 +65,10 @@ public class Game {
      */
     public void initialize() {
         gui = new GUI("Game", Constants.WIDTH, Constants.HEIGHT);
+        KeyboardSensor sensor = gui.getKeyboardSensor();
+
         //colors
         initialColors();
-        Color c = colors.remove(0);
 
         //boundaries
         Rectangle up = new Rectangle(new Point(0, 0), Constants.WIDTH,
@@ -88,20 +87,25 @@ public class Game {
                 Constants.BLOCK_THICKNESS), Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
                 Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
+        Rectangle paddle = new Rectangle(new Point(370, 540), 60, 30);
+
         new Block(up, Color.gray).addToGame(this);
         new Block(down, Color.gray).addToGame(this);
         new Block(left, Color.gray).addToGame(this);
         new Block(right, Color.gray).addToGame(this);
         new Block(back, Color.BLUE).addToGame(this);
+        new Paddle(sensor, paddle, Color.yellow, 5).addToGame(this);
 
         //ball
         Ball ball = new Ball(new Point(400, 540), 10, Color.BLACK, environment);
         ball.addToGame(this);
         ball.setVelocity(5, 5);
 
+        Color c;
         //blocks
         int common = 150, width = 50, height = 30;
-        for (int i = 12; i > 7; --i) {
+        for (int i = 12; i > 6; --i) {
+            c = colors.remove(0);
             for (int j = 0; j < i; ++j) {
                 Rectangle rect =
                         new Rectangle(new Point(Constants.WIDTH - 30 - width - 1 - j * (width + 1),
@@ -110,7 +114,7 @@ public class Game {
                 block.addToGame(this);
             }
             common += height + 1;
-            c = colors.remove(0);
+
         }
     }
 
