@@ -34,19 +34,20 @@ public class Block implements Collidable, Sprite, InGameObject {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Point collisionPoint,
+                        Velocity currentVelocity) {
         double dx = currentVelocity.getDx();
         double dy = currentVelocity.getDy();
 
         if (UtilsFunctions.approxiEquals(collisionPoint.getX(),
-                block.getUpperLeft().getX() + block.width())
-                || UtilsFunctions.approxiEquals(collisionPoint.getX(),
-                block.getUpperRight().getX() - block.width())) {
+                block.getUpperLeft().getX())
+                || UtilsFunctions.approxiEquals(collisionPoint.getX() ,
+                block.getUpperRight().getX())) {
             dx *= -1;
         } else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
-                block.getUpperLeft().getY() + block.height())
+                block.getUpperLeft().getY())
                 || UtilsFunctions.approxiEquals(collisionPoint.getY(),
-                block.getLowerLeft().getY() - block.height())) {
+                block.getLowerLeft().getY())) {
             dy *= -1;
         }
         return new Velocity(dx, dy);

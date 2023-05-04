@@ -95,7 +95,7 @@ public class Game {
         new Block(back, Color.BLUE).addToGame(this);
 
         //ball
-        Ball ball = new Ball(new Point(400, 250), 10, Color.BLACK, environment);
+        Ball ball = new Ball(new Point(400, 540), 10, Color.BLACK, environment);
         ball.addToGame(this);
         ball.setVelocity(5, 5);
 
