@@ -130,11 +130,7 @@ public class Ball implements Sprite, InGameObject {
         return this.velocity.getSpeed();
     }
 
-    /**
-     * Drawing command of the ball.
-     *
-     * @param surface - the interface pointer that is used for the drawing
-     */
+    @Override
     public void drawOn(DrawSurface surface) {
         surface.setColor(color);
         surface.fillCircle((int) Math.round(getX()), (int) Math.round(getY()), Math.round(r));
@@ -148,24 +144,18 @@ public class Ball implements Sprite, InGameObject {
         CollisionInfo collisionInfo = environment.getClosestCollision(trajectory);
         if (collisionInfo != null) {
             velocity =
-                    collisionInfo.collisionObject().hit1(this,
-                            collisionInfo.collisionPoint(), velocity);
+                    collisionInfo.collisionObject().
+                            hit(collisionInfo.collisionPoint(), velocity);
         }
         this.center = velocity.applyToPoint(this.center);
     }
 
-    /**
-     * Each time unit it's the ball is notified and move one step.
-     */
+    @Override
     public void timePassed() {
         moveOneStep();
     }
 
-    /**
-     * Add the ball to the sprite list.<br>
-     *
-     * @param g the game object.
-     */
+    @Override
     public void addToGame(Game g) {
         g.addSprite(this);
     }

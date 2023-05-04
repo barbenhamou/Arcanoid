@@ -76,6 +76,18 @@ public class Velocity {
     }
 
     /**
+     * Rotating the velocity.<br>
+     * @param rotateByDeg the angles.
+     * @return the new velocity after rotation.
+     * */
+    public Velocity rotateByDeg(int rotateByDeg) {
+        double size = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        double angle = Math.atan2(dy, dx);
+        double newAngle = angle + (rotateByDeg * Math.PI / 180.);
+        return new Velocity(size * Math.cos(newAngle), size * Math.sin(newAngle));
+    }
+
+    /**
      * Applier dx.
      *
      * @param p

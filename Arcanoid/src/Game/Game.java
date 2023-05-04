@@ -9,6 +9,7 @@ import Objects.Sprite;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
+import Utils.Constants;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,8 +21,6 @@ import java.util.List;
 public class Game {
     private SpriteCollection sprites;
     private GameEnvironment environment;
-
-    private static final int WIDTH = 800, HEIGHT = 600;
 
     private static GUI gui;
 
@@ -67,20 +66,27 @@ public class Game {
      * and add them to the game.
      */
     public void initialize() {
-        gui = new GUI("Game", WIDTH, HEIGHT);
+        gui = new GUI("Game", Constants.WIDTH, Constants.HEIGHT);
         //colors
         initialColors();
         Color c = colors.remove(0);
 
         //boundaries
-        Rectangle up = new Rectangle(new Point(0, 0), WIDTH, 30);
-        Rectangle down = new Rectangle(new Point(0, HEIGHT - 30), WIDTH, 30);
-        Rectangle left = new Rectangle(new Point(0, 30), 30, HEIGHT - 60);
-        Rectangle right = new Rectangle(new Point(WIDTH - 30, 30), 30, HEIGHT - 60);
+        Rectangle up = new Rectangle(new Point(0, 0), Constants.WIDTH,
+                Constants.BLOCK_THICKNESS);
+        Rectangle down = new Rectangle(new Point(0, Constants.HEIGHT - Constants.BLOCK_THICKNESS), Constants.WIDTH, Constants.BLOCK_THICKNESS);
+        Rectangle left = new Rectangle(new Point(0,
+                Constants.BLOCK_THICKNESS), Constants.BLOCK_THICKNESS,
+                Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
+        Rectangle right =
+                new Rectangle(new Point(Constants.WIDTH - Constants.BLOCK_THICKNESS,
+                        Constants.BLOCK_THICKNESS), Constants.BLOCK_THICKNESS,
+                        Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
         //background
-        Rectangle back = new Rectangle(new Point(30, 30), WIDTH - 60,
-                HEIGHT - 60);
+        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
+                Constants.BLOCK_THICKNESS), Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
+                Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
         new Block(up, Color.gray).addToGame(this);
         new Block(down, Color.gray).addToGame(this);
@@ -98,7 +104,7 @@ public class Game {
         for (int i = 12; i > 7; --i) {
             for (int j = 0; j < i; ++j) {
                 Rectangle rect =
-                        new Rectangle(new Point(WIDTH - 30 - width - 1 - j * (width + 1),
+                        new Rectangle(new Point(Constants.WIDTH - 30 - width - 1 - j * (width + 1),
                                 common), width, height);
                 Block block = new Block(rect, c);
                 block.addToGame(this);

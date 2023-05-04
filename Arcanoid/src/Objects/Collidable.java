@@ -20,6 +20,4 @@ public interface Collidable  {
      * @return the new velocity after collision.
      **/
     Velocity hit(Point collisionPoint, Velocity currentVelocity);
-
-    Velocity hit1(Ball b, Point collisionPoint, Velocity currentVelocity);
 }

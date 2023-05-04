@@ -28,42 +28,13 @@ public class Block implements Collidable, Sprite, InGameObject {
         this.color = color;
     }
 
-    /**
-     * Return the rectangle of the block.
-     */
     @Override
     public Rectangle getCollisionRectangle() {
         return block;
     }
 
-    /**
-     * @param collisionPoint  point of collision between the objects.
-     * @param currentVelocity the current velocity of the ball.
-     * @return the new velocity after collision.
-     **/
     @Override
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
-        double dx = currentVelocity.getDx();
-        double dy = currentVelocity.getDy();
-
-        if (UtilsFunctions.approxiEquals(collisionPoint.getX() ,
-                block.getUpperLeft().getX() + block.width())
-                || UtilsFunctions.approxiEquals(collisionPoint.getX(),
-                block.getUpperRight().getX() - block.width())) {
-            dx *= -1;
-        }
-
-        else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
-                block.getUpperLeft().getY() + block.height())
-                || UtilsFunctions.approxiEquals(collisionPoint.getY(),
-                block.getLowerLeft().getY() - block.height())) {
-            dy *= -1;
-        }
-        return new Velocity(dx, dy);
-    }
-
-    public Velocity hit1(Ball b, Point collisionPoint,
-                        Velocity currentVelocity) {
         double dx = currentVelocity.getDx();
         double dy = currentVelocity.getDy();
 
@@ -72,9 +43,7 @@ public class Block implements Collidable, Sprite, InGameObject {
                 || UtilsFunctions.approxiEquals(collisionPoint.getX(),
                 block.getUpperRight().getX() - block.width())) {
             dx *= -1;
-        }
-
-        else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
+        } else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
                 block.getUpperLeft().getY() + block.height())
                 || UtilsFunctions.approxiEquals(collisionPoint.getY(),
                 block.getLowerLeft().getY() - block.height())) {
@@ -83,11 +52,7 @@ public class Block implements Collidable, Sprite, InGameObject {
         return new Velocity(dx, dy);
     }
 
-    /**
-     * Drawing the ball.<br>
-     *
-     * @param d drawing tool.
-     */
+    @Override
     public void drawOn(DrawSurface d) {
         d.setColor(Color.BLACK);
         d.drawRectangle((int) block.getUpperLeft().getX() - 1,
@@ -100,17 +65,11 @@ public class Block implements Collidable, Sprite, InGameObject {
 
     }
 
-    /**
-     * The block get notified that time has passed and do something.
-     */
+    @Override
     public void timePassed() {
     }
 
-    /**
-     * Add the block to the sprite list and collidable list.<br>
-     *
-     * @param g the game object.
-     */
+    @Override
     public void addToGame(Game g) {
         g.addSprite(this);
         g.addCollidable(this);

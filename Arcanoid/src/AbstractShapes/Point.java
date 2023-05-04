@@ -73,6 +73,17 @@ public class Point {
     }
 
     /**
+     * Creates a new point with the point-wise-added coordinates of the two points.
+     *
+     * @param x add horizontal.
+     * @param y add vertical.
+     * @return new point, the sum of two.
+     */
+    public Point addPoint(double x, double y) {
+        return new Point(this.x + x, this.y + y);
+    }
+
+    /**
      * Generator for random AbstractShapes.Point according to the size of the screen.
      *
      * @param upperBound1 max horizontal value

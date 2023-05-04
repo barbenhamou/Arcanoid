@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * A class that represent a Rectangle object.
  */
 public class Rectangle {
-    private final Point upperLeft;
+    private Point upperLeft;
     private final double width;
     private final double height;
 
@@ -24,6 +24,14 @@ public class Rectangle {
      * */
     public Point getUpperLeft() {
         return this.upperLeft;
+    }
+
+    /**
+     * Setter for upper left point.
+     * @param p the new point.
+     * */
+    public void setUpperLeft(Point p) {
+        this.upperLeft = p;
     }
 
     /**
