@@ -89,4 +89,44 @@ public class Rectangle {
         return intersectionPoints.stream().
                 filter(Objects::nonNull).collect(Collectors.toList());
     }
+
+    /**
+     * Checks if a point is on the left side.
+     * @param p the point we check.
+     * @return true or false.
+     * */
+    public boolean isOnLeft(Point p) {
+        return p.getX() == upperLeft.getX()
+                && p.getY() <= upperLeft.getY() && p.getY() >= getLowerLeft().getY();
+    }
+
+    /**
+     * Checks if a point is on the right side.
+     * @param p the point we check.
+     * @return true or false.
+     * */
+    public boolean isOnRight(Point p) {
+        return p.getX() == getUpperRight().getX()
+                && p.getY() <= upperLeft.getY() && p.getY() >= getLowerLeft().getY();
+    }
+
+    /**
+     * Checks if a point is on the upper side.
+     * @param p the point we check.
+     * @return true or false.
+     * */
+    public boolean isOnUpper(Point p) {
+        return p.getX() == upperLeft.getY()
+                && p.getX() <= upperLeft.getX() && p.getY() >= getUpperRight().getX();
+    }
+
+    /**
+     * Checks if a point is on the lower side.
+     * @param p the point we check.
+     * @return true or false.
+     * */
+    public boolean isOnLower(Point p) {
+        return p.getX() == getLowerLeft().getY()
+                && p.getX() <= upperLeft.getX() && p.getY() >= getUpperRight().getX();
+    }
 }

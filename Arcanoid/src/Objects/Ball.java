@@ -140,7 +140,8 @@ public class Ball implements Sprite, InGameObject {
      * Changing positions of the ball.
      */
     public void moveOneStep() {
-        Line trajectory = new Line(center, velocity.applyToPoint(center));
+        Point newCenter = velocity.applyToPoint(center);
+        Line trajectory = new Line(center, velocity.applyToPoint(newCenter));
         CollisionInfo collisionInfo = environment.getClosestCollision(trajectory);
         if (collisionInfo != null) {
             velocity =
