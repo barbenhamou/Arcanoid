@@ -1,7 +1,10 @@
 package AbstractShapes;
+
 import java.util.List;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * A representation of a AbstractShapes.Line in R2.
  */
 public class Line {
@@ -226,13 +229,13 @@ public class Line {
      *
      * @param rect the rectangle that is being examined.
      * @return the intersection point that is the closest to the start.
-     * */
+     */
     public Point closestIntersectionPoint(Rectangle rect) {
         List<Point> intersections = rect.intersectionPoints(this);
         double minDistance = rect.getUpperLeft().distance(rect.getLowerRight());
         Point minDistanceP = null;
-        for(Point p: intersections) {
-            if(p.distance(start) <= minDistance) {
+        for (Point p : intersections) {
+            if (p.distance(start) <= minDistance) {
                 minDistanceP = p;
                 minDistance = p.distance(start);
             }

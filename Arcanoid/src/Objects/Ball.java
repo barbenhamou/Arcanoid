@@ -13,6 +13,8 @@ import java.awt.Color;
 import biuoop.DrawSurface;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * A representation of Ball.
  */
 public class Ball implements Sprite, InGameObject {
@@ -140,13 +142,14 @@ public class Ball implements Sprite, InGameObject {
      * Changing positions of the ball.
      */
     public void moveOneStep() {
-        Point newCenter = velocity.applyToPoint(center);
-        Line trajectory = new Line(center, velocity.applyToPoint(newCenter));
+        Line trajectory = new Line(center, velocity.applyToPoint(center));
         CollisionInfo collisionInfo = environment.getClosestCollision(trajectory);
         if (collisionInfo != null) {
-            velocity =
-                    collisionInfo.collisionObject().
-                            hit(collisionInfo.collisionPoint(), velocity);
+            if (collisionInfo.collisionPoint().distance(center) <= r) {
+                velocity =
+                        collisionInfo.collisionObject().
+                                hit(collisionInfo.collisionPoint(), velocity);
+            }
         }
         this.center = velocity.applyToPoint(this.center);
     }

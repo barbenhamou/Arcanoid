@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * The game environment.
  * */
 public class GameEnvironment {
@@ -28,6 +30,10 @@ public class GameEnvironment {
         this.collidables.add(c);
     }
 
+    /**
+     * Getter for the collidable list.
+     * @return list of collidables.
+     * */
     public List<Collidable> getCollidables() {
         return collidables;
     }

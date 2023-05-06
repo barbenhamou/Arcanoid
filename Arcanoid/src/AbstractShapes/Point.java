@@ -3,6 +3,8 @@ package AbstractShapes;
 import java.util.Random;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * A representation of a point in R2.
  */
 public class Point {

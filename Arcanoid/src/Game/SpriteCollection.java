@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * Holds all the sprites in the game.
  */
 public class SpriteCollection {

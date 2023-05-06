@@ -3,6 +3,8 @@ package Utils;
 import AbstractShapes.Point;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * Utils.Velocity class, helper to the animation and physics of the ball.
  */
 public class Velocity {

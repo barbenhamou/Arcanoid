@@ -1,6 +1,8 @@
 package Utils;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * Constants for the game.
  * */
 public class Constants {

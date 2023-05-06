@@ -2,18 +2,24 @@ package Game;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
-import Objects.*;
+import Objects.Collidable;
+import Objects.Sprite;
+import Objects.Ball;
+import Objects.Block;
+import Objects.Paddle;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
 import Utils.Constants;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * The game main program.
  */
 public class Game {
@@ -26,11 +32,17 @@ public class Game {
 
     private static List<Color> colors;
 
+    /**
+     * Constructor.
+     * */
     public Game() {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
     }
 
+    /**
+     * Initialize the color list.
+     * */
     public void initialColors() {
         colors = new ArrayList<>();
         colors.add(Color.green);
@@ -71,21 +83,18 @@ public class Game {
         initialColors();
 
         //boundaries
-        Rectangle up = new Rectangle(new Point(0, 0), Constants.WIDTH,
-                Constants.BLOCK_THICKNESS);
-        Rectangle down = new Rectangle(new Point(0, Constants.HEIGHT - Constants.BLOCK_THICKNESS), Constants.WIDTH, Constants.BLOCK_THICKNESS);
-        Rectangle left = new Rectangle(new Point(0,
+        Rectangle up = new Rectangle(new Point(0, 0), Constants.WIDTH, Constants.BLOCK_THICKNESS);
+        Rectangle down = new Rectangle(new Point(0, Constants.HEIGHT - Constants.BLOCK_THICKNESS),
+                Constants.WIDTH, Constants.BLOCK_THICKNESS);
+        Rectangle left = new Rectangle(new Point(0, Constants.BLOCK_THICKNESS),
+                Constants.BLOCK_THICKNESS, Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
+        Rectangle right = new Rectangle(new Point(Constants.WIDTH - Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS), Constants.BLOCK_THICKNESS,
                 Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
-        Rectangle right =
-                new Rectangle(new Point(Constants.WIDTH - Constants.BLOCK_THICKNESS,
-                        Constants.BLOCK_THICKNESS), Constants.BLOCK_THICKNESS,
-                        Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
         //background
-        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
-                Constants.BLOCK_THICKNESS), Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
-                Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
+        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS, Constants.BLOCK_THICKNESS),
+                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS, Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
         Rectangle paddle = new Rectangle(new Point(370, 540), 60, 30);
 
@@ -107,9 +116,8 @@ public class Game {
         for (int i = 12; i > 6; --i) {
             c = colors.remove(0);
             for (int j = 0; j < i; ++j) {
-                Rectangle rect =
-                        new Rectangle(new Point(Constants.WIDTH - 30 - width - 1 - j * (width + 1),
-                                common), width, height);
+                Rectangle rect = new Rectangle(
+                        new Point(Constants.WIDTH - 30 - width - 1 - j * (width + 1), common), width, height);
                 Block block = new Block(rect, c);
                 block.addToGame(this);
             }
@@ -140,11 +148,5 @@ public class Game {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
         }
-    }
-
-    public static void main(String[] a) {
-        Game game = new Game();
-        game.initialize();
-        game.run();
     }
 }

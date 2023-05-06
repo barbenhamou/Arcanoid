@@ -2,9 +2,10 @@ package Objects;
 import AbstractShapes.Rectangle;
 import AbstractShapes.Point;
 import Utils.Velocity;
-import biuoop.DrawSurface;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * A thing that the ball can collide with.
  * */
 public interface Collidable  {

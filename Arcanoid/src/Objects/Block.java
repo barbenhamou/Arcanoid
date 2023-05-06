@@ -11,6 +11,8 @@ import Game.InGameObject;
 import java.awt.Color;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * A representation of a block.
  */
 public class Block implements Collidable, Sprite, InGameObject {
@@ -41,7 +43,7 @@ public class Block implements Collidable, Sprite, InGameObject {
 
         if (UtilsFunctions.approxiEquals(collisionPoint.getX(),
                 block.getUpperLeft().getX())
-                || UtilsFunctions.approxiEquals(collisionPoint.getX() ,
+                || UtilsFunctions.approxiEquals(collisionPoint.getX(),
                 block.getUpperRight().getX())) {
             dx *= -1;
         } else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),

@@ -1,11 +1,13 @@
 package Utils;
 
 /**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
  * Utils functions class.
  * */
 public class UtilsFunctions {
 
-    public static double THRESHOLD = 0.00000001;
+    private static final double THRESHOLD = 0.00000001;
     /**
      * Does a comparison between doubles. <br>
      * @param a

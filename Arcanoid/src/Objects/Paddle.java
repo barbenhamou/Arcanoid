@@ -103,7 +103,7 @@ public class Paddle implements Sprite, Collidable, InGameObject {
         if (x == rect.getUpperRight().getX()) {
             return 5;
         }
-        return (int) ((x - rect.getUpperLeft().getX()) / (rect.width()) / 5) + 1;
+        return (int) ((x - rect.getUpperLeft().getX()) / (rect.width() / 5)) + 1;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class Paddle implements Sprite, Collidable, InGameObject {
             }
             default:
         }
-        return currentVelocity.rotateByDeg(rotateByDeg);
+        return currentVelocity.rotateByDeg(-rotateByDeg);
     }
 
 }
