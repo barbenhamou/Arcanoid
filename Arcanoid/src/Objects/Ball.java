@@ -144,11 +144,15 @@ public class Ball implements Sprite, InGameObject {
     public void moveOneStep() {
         Line trajectory = new Line(center, velocity.applyToPoint(center));
         CollisionInfo collisionInfo = environment.getClosestCollision(trajectory);
+        Point collisionPoint;
+        Collidable collisionObj;
+
         if (collisionInfo != null) {
-            if (collisionInfo.collisionPoint().distance(center) <= r) {
-                velocity =
-                        collisionInfo.collisionObject().
-                                hit(collisionInfo.collisionPoint(), velocity);
+            collisionPoint = collisionInfo.collisionPoint();
+            collisionObj = collisionInfo.collisionObject();
+
+            if (collisionPoint.distance(center) <= r) {
+                velocity = collisionObj.hit(collisionPoint, velocity);
             }
         }
         this.center = velocity.applyToPoint(this.center);
