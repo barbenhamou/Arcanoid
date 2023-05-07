@@ -1,14 +1,36 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<project default="compile">
+    <!-- Define a set of paths (file names) to pass to checkstyle - all .java files under `src` and its subdirectories (recursively)-->
+    <path id="sourceFiles">
+        <fileset dir="src" casesensitive="yes">
+            <include name="**/*.java"/>
+        </fileset>
+    </path>
 
-<taglib xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
-        version="2.1">
+    <!-- Define a property, which is like a variable for the build file, -->
+    <!--  with the classpath for all compilation & execution targets. -->
+    <property name="classpath" value="bin:biuoop-1.4.jar" />
 
-    <tlib-version>1.0</tlib-version>
-    <short-name>myshortname</short-name>
-    <uri>http://mycompany.com</uri>
+    <!-- Compile all java files under `src`, and export .class files into `bin` -->
+    <target name="compile">
+        <mkdir dir="bin"/>
+        <javac classpath="${classpath}" srcdir="src" destdir="bin" includeantruntime="false"/>
+    </target>
 
-    <!-- Invoke 'Generate' action to add tags or functions -->
+    <target name="clean">
+        <delete dir="bin" />
+    </target>
 
-</taglib>
+    <target name="run" depends="compile" >
+        <java classname="Ass3Game" classpath="${classpath}" fork="true"/>
+    </target>
+
+    <!-- Run checkstyle on all our source files -->
+    <target name="check">
+        <java jar="checkstyle-8.44-all.jar" fork="true">
+            <arg line="-c biuoop.xml" />
+            <arg line="src/*.java"/>
+        </java>
+    </target>
+
+
+</project>
