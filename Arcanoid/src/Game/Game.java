@@ -105,10 +105,17 @@ public class Game {
         new Block(back, Color.BLUE).addToGame(this);
         new Paddle(sensor, paddle, Color.yellow, 5).addToGame(this);
 
-        //ball
-        Ball ball = new Ball(new Point(400, 540), 10, Color.BLACK, environment);
-        ball.addToGame(this);
-        ball.setVelocity(5, 5);
+        //ball1
+        Ball ball1 = new Ball(new Point(400, 540), 10, Color.BLACK,
+                environment);
+        ball1.addToGame(this);
+        ball1.setVelocity(5, 5);
+
+        //ball2
+        Ball ball2 = new Ball(new Point(140, 540), 10, Color.YELLOW,
+                environment);
+        ball2.addToGame(this);
+        ball2.setVelocity(5, 5);
 
         Color c;
         //blocks
