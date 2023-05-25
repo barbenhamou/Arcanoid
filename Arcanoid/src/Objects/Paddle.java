@@ -88,6 +88,12 @@ public class Paddle implements Sprite, Collidable, InGameObject {
     }
 
     @Override
+    public void removeFromGame(Game g) {
+        g.removeSprite(this);
+        g.removeCollidable(this);
+    }
+
+    @Override
     public Rectangle getCollisionRectangle() {
         return this.rect;
     }
@@ -109,7 +115,8 @@ public class Paddle implements Sprite, Collidable, InGameObject {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint,
+                        Velocity currentVelocity) {
         //if the ball hits the paddle side, mirror his movement.
         if (collisionPoint.getY() <= rect.getUpperLeft().getY()
                 || collisionPoint.getX() < rect.getUpperLeft().getX()

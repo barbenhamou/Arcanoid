@@ -152,7 +152,7 @@ public class Ball implements Sprite, InGameObject {
             collisionObj = collisionInfo.collisionObject();
 
             if (collisionPoint.distance(center) <= r) {
-                velocity = collisionObj.hit(collisionPoint, velocity);
+                velocity = collisionObj.hit(this, collisionPoint, velocity);
             }
         }
         this.center = velocity.applyToPoint(this.center);
@@ -166,6 +166,11 @@ public class Ball implements Sprite, InGameObject {
     @Override
     public void addToGame(Game g) {
         g.addSprite(this);
+    }
+
+    @Override
+    public void removeFromGame(Game g) {
+        g.removeSprite(this);
     }
 
     /**

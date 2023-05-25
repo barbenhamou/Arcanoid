@@ -3,21 +3,27 @@ package Objects;
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
 import Game.Game;
+import HitListener.HitListener;
+import HitListener.HitNotifier;
 import Utils.UtilsFunctions;
 import Utils.Velocity;
 import biuoop.DrawSurface;
 import Game.InGameObject;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Name: Bar Ben Hamou.<br>
  * id number: 330591207.<br>
  * A representation of a block.
  */
-public class Block implements Collidable, Sprite, InGameObject {
+public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
     private Rectangle block;
     private Color color;
+
+    private List<HitListener> hitListeners;
 
     /**
      * Constructor.<br>
@@ -36,7 +42,7 @@ public class Block implements Collidable, Sprite, InGameObject {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint,
+    public Velocity hit(Ball hitter, Point collisionPoint,
                         Velocity currentVelocity) {
         double dx = currentVelocity.getDx();
         double dy = currentVelocity.getDy();
@@ -52,6 +58,7 @@ public class Block implements Collidable, Sprite, InGameObject {
                 block.getLowerLeft().getY())) {
             dy *= -1;
         }
+        this.notifyHit(hitter);
         return new Velocity(dx, dy);
     }
 
@@ -82,5 +89,29 @@ public class Block implements Collidable, Sprite, InGameObject {
     public void removeFromGame(Game g) {
         g.removeCollidable(this);
         g.removeSprite(this);
+        hitListeners.clear();
+    }
+
+    @Override
+    public void addHitListener(HitListener h1) {
+        hitListeners.add(h1);
+    }
+
+    @Override
+    public void removeHitListener(HitListener h1) {
+        hitListeners.remove(h1);
+    }
+
+    /**
+     * Notify that a hit in this object occurred.<br>
+     *
+     * @param hitter the ball that hit this object.
+     * */
+    private void notifyHit(Ball hitter) {
+        List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
+
+        for (HitListener hl : listeners) {
+            hl.hitEvent(this, hitter);
+        }
     }
 }

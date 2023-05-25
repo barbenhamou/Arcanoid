@@ -20,5 +20,5 @@ public interface Collidable  {
      * @param currentVelocity the current velocity of the ball.
      * @return the new velocity after collision.
      **/
-    Velocity hit(Point collisionPoint, Velocity currentVelocity);
+    Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity);
 }
