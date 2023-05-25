@@ -1,5 +1,6 @@
 package Game;
 
+import Objects.Collidable;
 import Objects.Sprite;
 import biuoop.DrawSurface;
 
@@ -28,6 +29,15 @@ public class SpriteCollection {
      */
     public void addSprite(Sprite s) {
         sprites.add(s);
+    }
+
+    /**
+     * Removing new sprite from the game environment.
+     *
+     * @param s the wanted sprite.
+     */
+    public void removeSprite(Sprite s) {
+        sprites.remove(s);
     }
 
     /**

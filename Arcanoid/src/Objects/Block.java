@@ -77,4 +77,10 @@ public class Block implements Collidable, Sprite, InGameObject {
         g.addSprite(this);
         g.addCollidable(this);
     }
+
+    @Override
+    public void removeFromGame(Game g) {
+        g.removeCollidable(this);
+        g.removeSprite(this);
+    }
 }

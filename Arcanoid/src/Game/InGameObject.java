@@ -7,9 +7,16 @@ package Game;
  * */
 public interface InGameObject {
     /**
-     * Add a sprite to the game.<br>
+     * Add a thing to the game.<br>
      *
      * @param g the game object.
      */
     void addToGame(Game g);
+
+    /**
+     * Remove a thing from the game.<br>
+     *
+     * @param g the game object.
+     */
+    void removeFromGame(Game g);
 }

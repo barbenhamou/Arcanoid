@@ -11,12 +11,13 @@ import java.util.List;
  * Name: Bar Ben Hamou.<br>
  * id number: 330591207.<br>
  * The game environment.
- * */
+ */
 public class GameEnvironment {
     private List<Collidable> collidables;
+
     /**
      * Constructor.
-     * */
+     */
     public GameEnvironment() {
         collidables = new ArrayList<>();
     }
@@ -31,9 +32,19 @@ public class GameEnvironment {
     }
 
     /**
+     * Removing new collidable from the game environment.
+     *
+     * @param c the wanted collidable.
+     */
+    public void removeCollidable(Collidable c) {
+        collidables.remove(c);
+    }
+
+    /**
      * Getter for the collidable list.
+     *
      * @return list of collidables.
-     * */
+     */
     public List<Collidable> getCollidables() {
         return collidables;
     }

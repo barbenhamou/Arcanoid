@@ -96,10 +96,12 @@ public class Paddle implements Sprite, Collidable, InGameObject {
      * Region of the collision.
      *
      * @param x the collision point x.
+     * @return the region of the hit
      */
     public int region(double x) {
-        if (x == rect.getUpperLeft().getX())
+        if (x == rect.getUpperLeft().getX()) {
             return 1;
+        }
         if (x == rect.getUpperRight().getX()) {
             return 5;
         }
@@ -123,12 +125,12 @@ public class Paddle implements Sprite, Collidable, InGameObject {
                 break;
             }
             case 2: {
-                rotateByDeg = - 30;
+                rotateByDeg = -30;
                 break;
             }
             case 3: {
                 return new Velocity(currentVelocity.getDx(),
-                        -1*currentVelocity.getDy());
+                        -1 * currentVelocity.getDy());
             }
             case 4: {
                 rotateByDeg = 30;

@@ -72,6 +72,20 @@ public class Game {
     }
 
     /**
+     * Removing a collidable from the game environment.
+     *
+     * @param c the collidable.
+     */
+    public void removeCollidable(Collidable c) {environment.removeCollidable(c);}
+
+    /**
+     * Removing a sprite from the game environment.
+     *
+     * @param s the sprite.
+     */
+    public void removeSprite(Sprite s) {sprites.removeSprite(s);}
+
+    /**
      * Initialize a new game: create the Blocks and Ball (and Paddle)
      * and add them to the game.
      */
