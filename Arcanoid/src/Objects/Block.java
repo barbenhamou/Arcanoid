@@ -34,6 +34,7 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
     public Block(Rectangle block, Color color) {
         this.block = block;
         this.color = color;
+        this.hitListeners = new ArrayList<>();
     }
 
     @Override
