@@ -4,6 +4,8 @@ import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
 import HitListener.BallRemover;
 import HitListener.BlockRemover;
+import HitListener.Indicator;
+import HitListener.ScoreTrackingListener;
 import Objects.Collidable;
 import Objects.Sprite;
 import Objects.Ball;
@@ -33,9 +35,13 @@ public class Game {
 
     private BallRemover ballRemover;
 
+    private ScoreTrackingListener scoreTrackingListener;
+
     private Counter blocksCounter;
 
     private Counter lives;
+
+    private Counter score;
 
     private static GUI gui;
 
@@ -43,21 +49,29 @@ public class Game {
 
     private static List<Color> colors;
 
+    public static List<List<Block>> levels;
+
     /**
      * Constructor.
-     * */
+     */
     public Game() {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
-        this.blocksCounter = new Counter(Constants.initialNumOfBlocks);
+        this.levels = new ArrayList<List<Block>>();
+        for (int i = 0; i < 6; ++i) {
+            levels.add(new ArrayList<Block>());
+        }
+        this.blocksCounter = new Counter(Constants.INITIAL_NUM_BLOCKS);
         this.blockRemover = new BlockRemover(this, blocksCounter);
-        this.lives = new Counter(2);
+        this.lives = new Counter(Constants.INITIAL_NUM_BALLS);
         this.ballRemover = new BallRemover(this, lives);
+        this.score = new Counter(0);
+        this.scoreTrackingListener = new ScoreTrackingListener(score);
     }
 
     /**
      * Initialize the color list.
-     * */
+     */
     public void initialColors() {
         colors = new ArrayList<>();
         colors.add(Color.green);
@@ -91,14 +105,18 @@ public class Game {
      *
      * @param c the collidable.
      */
-    public void removeCollidable(Collidable c) {environment.removeCollidable(c);}
+    public void removeCollidable(Collidable c) {
+        environment.removeCollidable(c);
+    }
 
     /**
      * Removing a sprite from the game environment.
      *
      * @param s the sprite.
      */
-    public void removeSprite(Sprite s) {sprites.removeSprite(s);}
+    public void removeSprite(Sprite s) {
+        sprites.removeSprite(s);
+    }
 
     /**
      * Initialize a new game: create the Blocks and Ball (and Paddle)
@@ -112,7 +130,9 @@ public class Game {
         initialColors();
 
         //boundaries
-        Rectangle up = new Rectangle(new Point(0, 0), Constants.WIDTH, Constants.BLOCK_THICKNESS);
+        Rectangle up = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
+                Constants.BLOCK_THICKNESS), Constants.WIDTH - Constants.BLOCK_THICKNESS,
+                Constants.BLOCK_THICKNESS);
         Rectangle down = new Rectangle(new Point(0, Constants.HEIGHT - Constants.BLOCK_THICKNESS),
                 Constants.WIDTH, Constants.BLOCK_THICKNESS);
         Rectangle left = new Rectangle(new Point(0, Constants.BLOCK_THICKNESS),
@@ -122,15 +142,18 @@ public class Game {
                 Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
         //background
-        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS, Constants.BLOCK_THICKNESS),
-                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS, Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
+        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
+                2 * Constants.BLOCK_THICKNESS),
+                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
+                Constants.HEIGHT - 3 * Constants.BLOCK_THICKNESS);
 
+        //paddle
         Rectangle paddle = new Rectangle(new Point(370, 500), 60, 30);
 
-        Rectangle death = new Rectangle(new Point(0, Constants.yDeathRange),
+        //death block
+        Rectangle death = new Rectangle(new Point(0, Constants.Y_DEATH_RANGE),
                 Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS);
-
         Block deathBlock = new Block(death, Color.blue);
         deathBlock.addToGame(this);
         deathBlock.addHitListener(ballRemover);
@@ -154,6 +177,10 @@ public class Game {
         ball2.addToGame(this);
         ball2.setVelocity(5, 5);
 
+        //Score
+        Indicator scoreIndicator = new Indicator(score, 50, "SCORE");
+        addSprite(scoreIndicator);
+
         Color c;
         //blocks
         int common = 150, width = 50, height = 30;
@@ -165,6 +192,8 @@ public class Game {
                 Block block = new Block(rect, c);
                 block.addToGame(this);
                 block.addHitListener(blockRemover);
+                block.addHitListener(scoreTrackingListener);
+                levels.get(12-i).add(block);
             }
             common += height + 1;
 
@@ -198,7 +227,13 @@ public class Game {
                 gui.close();
                 running = false;
             }
+
+            for(int i = levels.size() - 1; i >= 0; --i) {
+                if (levels.get(i).size() == 0) {
+                    score.increase(100);
+                    levels.remove(levels.get(i));
+                }
+            }
         }
-        return;
     }
 }

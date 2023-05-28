@@ -32,7 +32,7 @@ public class BallRemover implements HitListener{
     }
 
     /**
-     * Getter for the remained block num.
+     * Getter for the remained balls num.
      * */
     public int getAmountRemained() {
         return remainedBalls.getValue();
