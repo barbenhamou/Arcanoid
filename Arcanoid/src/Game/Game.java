@@ -2,11 +2,14 @@ package Game;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
+import HitListener.BallRemover;
+import HitListener.BlockRemover;
 import Objects.Collidable;
 import Objects.Sprite;
 import Objects.Ball;
 import Objects.Block;
 import Objects.Paddle;
+import Utils.Counter;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
@@ -26,6 +29,14 @@ public class Game {
     private SpriteCollection sprites;
     private GameEnvironment environment;
 
+    private BlockRemover blockRemover;
+
+    private BallRemover ballRemover;
+
+    private Counter blocksCounter;
+
+    private Counter lives;
+
     private static GUI gui;
 
     private static Sleeper sleeper;
@@ -38,6 +49,10 @@ public class Game {
     public Game() {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
+        this.blocksCounter = new Counter(Constants.initialNumOfBlocks);
+        this.blockRemover = new BlockRemover(this, blocksCounter);
+        this.lives = new Counter(2);
+        this.ballRemover = new BallRemover(this, lives);
     }
 
     /**
@@ -110,7 +125,15 @@ public class Game {
         Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS, Constants.BLOCK_THICKNESS),
                 Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS, Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
-        Rectangle paddle = new Rectangle(new Point(370, 540), 60, 30);
+        Rectangle paddle = new Rectangle(new Point(370, 500), 60, 30);
+
+        Rectangle death = new Rectangle(new Point(0, Constants.yDeathRange),
+                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
+                Constants.BLOCK_THICKNESS);
+
+        Block deathBlock = new Block(death, Color.blue);
+        deathBlock.addToGame(this);
+        deathBlock.addHitListener(ballRemover);
 
         new Block(up, Color.gray).addToGame(this);
         new Block(down, Color.gray).addToGame(this);
@@ -120,13 +143,13 @@ public class Game {
         new Paddle(sensor, paddle, Color.yellow, 5).addToGame(this);
 
         //ball1
-        Ball ball1 = new Ball(new Point(400, 540), 10, Color.BLACK,
+        Ball ball1 = new Ball(new Point(400, 480), 10, Color.BLACK,
                 environment);
         ball1.addToGame(this);
         ball1.setVelocity(5, 5);
 
         //ball2
-        Ball ball2 = new Ball(new Point(140, 540), 10, Color.YELLOW,
+        Ball ball2 = new Ball(new Point(140, 480), 10, Color.YELLOW,
                 environment);
         ball2.addToGame(this);
         ball2.setVelocity(5, 5);
@@ -141,6 +164,7 @@ public class Game {
                         new Point(Constants.WIDTH - 30 - width - 1 - j * (width + 1), common), width, height);
                 Block block = new Block(rect, c);
                 block.addToGame(this);
+                block.addHitListener(blockRemover);
             }
             common += height + 1;
 
@@ -154,7 +178,8 @@ public class Game {
         sleeper = new Sleeper();
         int framesPerSecond = 60;
         int millisecondsPerFrame = 1000 / framesPerSecond;
-        while (true) {
+        boolean running = true;
+        while (running) {
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = gui.getDrawSurface();
@@ -168,6 +193,12 @@ public class Game {
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
+
+            if (blockRemover.getAmountRemained() == 0 || ballRemover.getAmountRemained() == 0) {
+                gui.close();
+                running = false;
+            }
         }
+        return;
     }
 }

@@ -9,6 +9,15 @@ public class Counter {
     private int value;
 
     /**
+     * Constructor.<br>
+     *
+     * @param value the initial value that the counter counts.
+     * */
+    public Counter(int value) {
+        this.value = value;
+    }
+
+    /**
      * Increases value by the number given.<br>
      *
      * @param number the wanted change.
@@ -23,7 +32,7 @@ public class Counter {
      * @param number the wanted change.
      * */
     public void decrease(int number) {
-        this.value += number;
+        this.value -= number;
     }
 
     /**
