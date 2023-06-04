@@ -1,10 +1,4 @@
 <project default="compile">
-    <!-- Define a set of paths (file names) to pass to checkstyle - all .java files under `src` and its subdirectories (recursively)-->
-    <path id="sourceFiles">
-        <fileset dir="src" casesensitive="yes">
-            <include name="**/*.java"/>
-        </fileset>
-    </path>
 
     <!-- Define a property, which is like a variable for the build file, -->
     <!--  with the classpath for all compilation & execution targets. -->
@@ -17,19 +11,20 @@
     </target>
 
     <target name="clean">
-        <delete dir="bin" />
+        <delete dir="bin"/>
     </target>
 
     <target name="run" depends="compile" >
-        <java classname="Ass3Game" classpath="${classpath}" fork="true"/>
+        <java classname="Ass5Game" classpath="${classpath}" fork="true"/>
     </target>
 
-    <!-- Run checkstyle on all our source files -->
+    <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+             classpath="checkstyle-8.44-all.jar"/>
+
     <target name="check">
-        <java jar="checkstyle-8.44-all.jar" fork="true">
-            <arg line="-c biuoop.xml" />
-            <arg line="src/*.java"/>
-        </java>
+        <checkstyle config="biuoop.xml">
+            <fileset dir="src" includes="*/.java"/>
+        </checkstyle>
     </target>
 
 
