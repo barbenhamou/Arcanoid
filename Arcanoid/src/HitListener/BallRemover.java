@@ -10,16 +10,16 @@ import Utils.Counter;
  * id number: 330591207.<br>
  * A listener for remove a ball.
  */
-public class BallRemover implements HitListener{
+public class BallRemover implements HitListener {
     private Game game;
     private Counter remainedBalls;
 
     /**
      * A constructor.<br>
      *
-     * @param game the game object of the program.
+     * @param game          the game object of the program.
      * @param remainedBalls the number of blocks remained.
-     * */
+     */
     public BallRemover(Game game, Counter remainedBalls) {
         this.game = game;
         this.remainedBalls = remainedBalls;
@@ -33,7 +33,9 @@ public class BallRemover implements HitListener{
 
     /**
      * Getter for the remained balls num.
-     * */
+     *
+     * @return the amount of balls left.
+     */
     public int getAmountRemained() {
         return remainedBalls.getValue();
     }

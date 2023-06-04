@@ -15,7 +15,7 @@ public interface Collidable  {
     Rectangle getCollisionRectangle();
 
     /**
-     *
+     * @param hitter the ball that hit the block.
      * @param collisionPoint point of collision between the objects.
      * @param currentVelocity the current velocity of the ball.
      * @return the new velocity after collision.

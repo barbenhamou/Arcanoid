@@ -91,9 +91,6 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
         g.removeCollidable(this);
         g.removeSprite(this);
         hitListeners.clear();
-        for (int i = 0; i < g.levels.size(); ++i) {
-            g.levels.get(i).remove(this);
-        }
     }
 
     @Override

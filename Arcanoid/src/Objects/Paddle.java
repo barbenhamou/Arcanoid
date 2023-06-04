@@ -126,28 +126,17 @@ public class Paddle implements Sprite, Collidable, InGameObject {
         }
         int region = region(collisionPoint.getX());
         int rotateByDeg = 180;
-        switch (region) {
-            case 1: {
-                rotateByDeg = -60;
-                break;
-            }
-            case 2: {
-                rotateByDeg = -30;
-                break;
-            }
-            case 3: {
-                return new Velocity(currentVelocity.getDx(),
-                        -1 * currentVelocity.getDy());
-            }
-            case 4: {
-                rotateByDeg = 30;
-                break;
-            }
-            case 5: {
-                rotateByDeg = 60;
-                break;
-            }
-            default:
+        if (region == 1) {
+            rotateByDeg = -60;
+        } else if (region == 2) {
+            rotateByDeg = -30;
+        } else if (region == 3) {
+            return new Velocity(currentVelocity.getDx(),
+                    -1 * currentVelocity.getDy());
+        } else if (region == 4) {
+            rotateByDeg = 30;
+        } else if (region == 5) {
+            rotateByDeg = 60;
         }
         return currentVelocity.rotateByDeg(-rotateByDeg);
     }

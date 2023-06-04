@@ -5,7 +5,7 @@ import Game.Game;
  * id number: 330591207.<br>
  * The game program.
  * */
-public class Ass3 {
+public class Ass5Game {
     /**
      * The main program.<br>
      * @param a arguments from main.

@@ -49,18 +49,12 @@ public class Game {
 
     private static List<Color> colors;
 
-    public static List<List<Block>> levels;
-
     /**
      * Constructor.
      */
     public Game() {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
-        this.levels = new ArrayList<List<Block>>();
-        for (int i = 0; i < 6; ++i) {
-            levels.add(new ArrayList<Block>());
-        }
         this.blocksCounter = new Counter(Constants.INITIAL_NUM_BLOCKS);
         this.blockRemover = new BlockRemover(this, blocksCounter);
         this.lives = new Counter(Constants.INITIAL_NUM_BALLS);
@@ -129,7 +123,7 @@ public class Game {
         //colors
         initialColors();
 
-        //boundaries
+        //boundaries - rectangles
         Rectangle up = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS), Constants.WIDTH - Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS);
@@ -141,14 +135,14 @@ public class Game {
                 Constants.BLOCK_THICKNESS), Constants.BLOCK_THICKNESS,
                 Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
-        //background
+        //background - rectangle
         Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
                 2 * Constants.BLOCK_THICKNESS),
                 Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
                 Constants.HEIGHT - 3 * Constants.BLOCK_THICKNESS);
 
-        //paddle
-        Rectangle paddle = new Rectangle(new Point(370, 500), 60, 30);
+        //paddle - rectangle
+        Rectangle paddle = new Rectangle(new Point(370, 500), 120, 15);
 
         //death block
         Rectangle death = new Rectangle(new Point(0, Constants.Y_DEATH_RANGE),
@@ -158,27 +152,34 @@ public class Game {
         deathBlock.addToGame(this);
         deathBlock.addHitListener(ballRemover);
 
+        //adding the rest of the blocks to the game.
         new Block(up, Color.gray).addToGame(this);
         new Block(down, Color.gray).addToGame(this);
         new Block(left, Color.gray).addToGame(this);
         new Block(right, Color.gray).addToGame(this);
         new Block(back, Color.BLUE).addToGame(this);
-        new Paddle(sensor, paddle, Color.yellow, 5).addToGame(this);
+        new Paddle(sensor, paddle, Color.yellow, Constants.PADDLE_SPEED).addToGame(this);
 
         //ball1
-        Ball ball1 = new Ball(new Point(400, 480), 10, Color.BLACK,
+        Ball ball1 = new Ball(new Point(400, 480), Constants.R, Color.BLACK,
                 environment);
         ball1.addToGame(this);
-        ball1.setVelocity(5, 5);
+        ball1.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
 
         //ball2
-        Ball ball2 = new Ball(new Point(140, 480), 10, Color.YELLOW,
+        Ball ball2 = new Ball(new Point(360, 480), Constants.R, Color.YELLOW,
                 environment);
         ball2.addToGame(this);
-        ball2.setVelocity(5, 5);
+        ball2.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
+
+        //ball3
+        Ball ball3 = new Ball(new Point(350, 480), Constants.R, Color.RED,
+                environment);
+        ball3.addToGame(this);
+        ball3.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
 
         //Score
-        Indicator scoreIndicator = new Indicator(score, 50, "SCORE");
+        Indicator scoreIndicator = new Indicator(score, Constants.X_SCORE, "SCORE");
         addSprite(scoreIndicator);
 
         Color c;
@@ -193,7 +194,6 @@ public class Game {
                 block.addToGame(this);
                 block.addHitListener(blockRemover);
                 block.addHitListener(scoreTrackingListener);
-                levels.get(12-i).add(block);
             }
             common += height + 1;
 
@@ -223,17 +223,16 @@ public class Game {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
 
-            if (blockRemover.getAmountRemained() == 0 || ballRemover.getAmountRemained() == 0) {
-                gui.close();
+            if (blockRemover.getAmountRemained() == 0) {
+                score.increase(100);
                 running = false;
             }
 
-            for(int i = levels.size() - 1; i >= 0; --i) {
-                if (levels.get(i).size() == 0) {
-                    score.increase(100);
-                    levels.remove(levels.get(i));
-                }
+            if (ballRemover.getAmountRemained() == 0) {
+                running = false;
             }
         }
+        sleeper.sleepFor(millisecondsPerFrame);
+        gui.close();
     }
 }

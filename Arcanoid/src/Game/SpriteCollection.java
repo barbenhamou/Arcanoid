@@ -1,11 +1,9 @@
 package Game;
 
-import Objects.Collidable;
 import Objects.Sprite;
 import biuoop.DrawSurface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,7 +43,7 @@ public class SpriteCollection {
      * Notify all sprite that time has passed.
      */
     public void notifyAllTimePassed() {
-        for(int i = sprites.size() - 1; i>=0; --i) {
+        for (int i = sprites.size() - 1; i >= 0; --i) {
             sprites.get(i).timePassed();
         }
     }

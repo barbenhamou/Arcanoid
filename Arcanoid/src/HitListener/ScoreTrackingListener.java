@@ -29,6 +29,7 @@ public class ScoreTrackingListener implements HitListener {
 
     /**
      * Getter for the remained block num.
+     * @return the current score.
      * */
     public int getAmountRemained() {
         return currentScore.getValue();
