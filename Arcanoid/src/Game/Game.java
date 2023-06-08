@@ -12,6 +12,7 @@ import Objects.Ball;
 import Objects.Block;
 import Objects.Paddle;
 import Screens.CountDownAnimation;
+import Screens.EndScreen;
 import Screens.KeyPressedStoppableAnimation;
 import Screens.PauseScreen;
 import Utils.Counter;
@@ -225,6 +226,13 @@ public class Game implements Animation {
         this.runner.run(new CountDownAnimation(3, 3, sprites));
         createBalls();
         this.runner.run(this);
+        if (lives.getValue() == 0) {
+            this.runner.run(new EndScreen("Game Over.", score.getValue(),
+                            sensor));
+        } else {
+            this.runner.run(new EndScreen("You Win!", score.getValue(),
+                    sensor));
+        }
         gui.close();
     }
 
