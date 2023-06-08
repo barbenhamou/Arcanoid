@@ -228,7 +228,7 @@ public class Game implements Animation {
         this.runner.run(this);
         if (lives.getValue() == 0) {
             this.runner.run(new EndScreen("Game Over.", score.getValue(),
-                            sensor));
+                    sensor));
         } else {
             this.runner.run(new EndScreen("You Win!", score.getValue(),
                     sensor));
