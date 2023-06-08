@@ -19,4 +19,9 @@ public interface Animation {
      * Determining whether the animation should stop.
      */
     boolean shouldStop();
+
+    /**
+     * @return The frame per second of the animation.
+     */
+    double framePerSecond();
 }

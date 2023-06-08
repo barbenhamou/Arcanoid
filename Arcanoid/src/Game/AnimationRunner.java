@@ -13,8 +13,6 @@ public class AnimationRunner {
     private GUI gui;
     private Sleeper sleeper;
 
-    private int framePerSecond;
-
     /**
      * Constructor.<br>
      *
@@ -23,7 +21,6 @@ public class AnimationRunner {
     public AnimationRunner(GUI gui) {
         this.gui = gui;
         this.sleeper = new Sleeper();
-        this.framePerSecond = 60;
     }
 
     /**
@@ -32,7 +29,7 @@ public class AnimationRunner {
      * @param animation the animation we want to run.
      * */
     public void run(Animation animation) {
-        int millisecondsPerFrame = 1000 / this.framePerSecond;
+        int millisecondsPerFrame = 1000 / (int)animation.framePerSecond();
         while (!animation.shouldStop()) {
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();

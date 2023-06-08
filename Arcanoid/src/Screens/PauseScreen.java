@@ -18,4 +18,9 @@ public class PauseScreen implements Animation {
     public boolean shouldStop() {
         return false;
     }
+
+    @Override
+    public double framePerSecond() {
+        return 60;
+    }
 }

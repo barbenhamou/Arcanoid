@@ -46,4 +46,9 @@ public class KeyPressedStoppableAnimation implements Animation {
     public boolean shouldStop() {
         return shouldStop || animation.shouldStop();
     }
+
+    @Override
+    public double framePerSecond() {
+        return animation.framePerSecond();
+    }
 }

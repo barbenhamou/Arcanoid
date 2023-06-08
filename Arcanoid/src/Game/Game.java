@@ -11,6 +11,7 @@ import Objects.Sprite;
 import Objects.Ball;
 import Objects.Block;
 import Objects.Paddle;
+import Screens.CountDownAnimation;
 import Screens.KeyPressedStoppableAnimation;
 import Screens.PauseScreen;
 import Utils.Counter;
@@ -221,6 +222,7 @@ public class Game implements Animation {
      * Run the game -- start the animation loop.
      */
     public void run() {
+        this.runner.run(new CountDownAnimation(3, 3, sprites));
         createBalls();
         this.runner.run(this);
         gui.close();
@@ -248,5 +250,10 @@ public class Game implements Animation {
     @Override
     public boolean shouldStop() {
         return !this.running;
+    }
+
+    @Override
+    public double framePerSecond() {
+        return 60;
     }
 }

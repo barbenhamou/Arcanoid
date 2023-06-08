@@ -1,0 +1,41 @@
+package Screens;
+
+import Game.Animation;
+import Game.SpriteCollection;
+import biuoop.DrawSurface;
+
+/**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
+ * Count down.
+ */
+public class CountDownAnimation implements Animation {
+    private double numOfSeconds;
+    private int current;
+    private int countFrom;
+    private SpriteCollection game;
+
+    public CountDownAnimation(double numOfSeconds, int countFrom,
+                              SpriteCollection game) {
+        this.numOfSeconds = numOfSeconds;
+        this.current = countFrom;
+        this.countFrom = countFrom;
+        this.game = game;
+    }
+
+    @Override
+    public void doOneFrame(DrawSurface d) {
+        game.drawAllOn(d);
+        d.drawText(d.getWidth() / 2, d.getHeight() / 2, current-- + "...", 32);
+    }
+
+    @Override
+    public boolean shouldStop() {
+        return current <= 0;
+    }
+
+    @Override
+    public double framePerSecond() {
+        return countFrom / numOfSeconds;
+    }
+}
