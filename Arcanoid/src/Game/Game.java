@@ -11,6 +11,8 @@ import Objects.Sprite;
 import Objects.Ball;
 import Objects.Block;
 import Objects.Paddle;
+import Screens.KeyPressedStoppableAnimation;
+import Screens.PauseScreen;
 import Utils.Counter;
 import biuoop.DrawSurface;
 import biuoop.GUI;
@@ -27,7 +29,7 @@ import java.util.List;
  * id number: 330591207.<br>
  * The game main program.
  */
-public class Game {
+public class Game implements Animation {
     private SpriteCollection sprites;
     private GameEnvironment environment;
 
@@ -43,16 +45,25 @@ public class Game {
 
     private Counter score;
 
-    private static GUI gui;
+    private GUI gui;
 
-    private static Sleeper sleeper;
+    private Sleeper sleeper;
 
-    private static List<Color> colors;
+    private List<Color> colors;
+
+    private boolean running;
+
+    private AnimationRunner runner;
+
+    private KeyboardSensor sensor;
 
     /**
      * Constructor.
      */
     public Game() {
+        this.gui = new GUI("Game", Constants.WIDTH, Constants.HEIGHT);
+        this.sensor = gui.getKeyboardSensor();
+        this.sleeper = new Sleeper();
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
         this.blocksCounter = new Counter(Constants.INITIAL_NUM_BLOCKS);
@@ -61,6 +72,8 @@ public class Game {
         this.ballRemover = new BallRemover(this, lives);
         this.score = new Counter(0);
         this.scoreTrackingListener = new ScoreTrackingListener(score);
+        this.running = true;
+        this.runner = new AnimationRunner(gui);
     }
 
     /**
@@ -116,14 +129,17 @@ public class Game {
      * Initialize a new game: create the Blocks and Ball (and Paddle)
      * and add them to the game.
      */
-    public void initialize() {
-        gui = new GUI("Game", Constants.WIDTH, Constants.HEIGHT);
-        KeyboardSensor sensor = gui.getKeyboardSensor();
 
-        //colors
-        initialColors();
+    public void addBoundariesAndDeath() {
+        //death block
+        Rectangle death = new Rectangle(new Point(0, Constants.Y_DEATH_RANGE),
+                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
+                Constants.BLOCK_THICKNESS);
+        Block deathBlock = new Block(death, Color.blue);
+        deathBlock.addToGame(this);
+        deathBlock.addHitListener(ballRemover);
 
-        //boundaries - rectangles
+        //gray boundaries
         Rectangle up = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS), Constants.WIDTH - Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS);
@@ -135,31 +151,13 @@ public class Game {
                 Constants.BLOCK_THICKNESS), Constants.BLOCK_THICKNESS,
                 Constants.HEIGHT - 2 * Constants.BLOCK_THICKNESS);
 
-        //background - rectangle
-        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
-                2 * Constants.BLOCK_THICKNESS),
-                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
-                Constants.HEIGHT - 3 * Constants.BLOCK_THICKNESS);
-
-        //paddle - rectangle
-        Rectangle paddle = new Rectangle(new Point(370, 500), 120, 15);
-
-        //death block
-        Rectangle death = new Rectangle(new Point(0, Constants.Y_DEATH_RANGE),
-                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
-                Constants.BLOCK_THICKNESS);
-        Block deathBlock = new Block(death, Color.blue);
-        deathBlock.addToGame(this);
-        deathBlock.addHitListener(ballRemover);
-
-        //adding the rest of the blocks to the game.
         new Block(up, Color.gray).addToGame(this);
         new Block(down, Color.gray).addToGame(this);
         new Block(left, Color.gray).addToGame(this);
         new Block(right, Color.gray).addToGame(this);
-        new Block(back, Color.BLUE).addToGame(this);
-        new Paddle(sensor, paddle, Color.yellow, Constants.PADDLE_SPEED).addToGame(this);
+    }
 
+    public void createBalls() {
         //ball1
         Ball ball1 = new Ball(new Point(400, 480), Constants.R, Color.BLACK,
                 environment);
@@ -177,6 +175,25 @@ public class Game {
                 environment);
         ball3.addToGame(this);
         ball3.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
+    }
+
+    public void initialize() {
+        //colors
+        initialColors();
+
+        //boundaries and death
+        addBoundariesAndDeath();
+
+        //background - rectangle
+        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
+                2 * Constants.BLOCK_THICKNESS),
+                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
+                Constants.HEIGHT - 3 * Constants.BLOCK_THICKNESS);
+        new Block(back, Color.BLUE).addToGame(this);
+
+        //paddle - rectangle
+        Rectangle paddle = new Rectangle(new Point(370, 500), 120, 15);
+        new Paddle(sensor, paddle, Color.yellow, Constants.PADDLE_SPEED).addToGame(this);
 
         //Score
         Indicator scoreIndicator = new Indicator(score, Constants.X_SCORE, "SCORE");
@@ -204,35 +221,32 @@ public class Game {
      * Run the game -- start the animation loop.
      */
     public void run() {
-        sleeper = new Sleeper();
-        int framesPerSecond = 60;
-        int millisecondsPerFrame = 1000 / framesPerSecond;
-        boolean running = true;
-        while (running) {
-            long startTime = System.currentTimeMillis(); // timing
-
-            DrawSurface d = gui.getDrawSurface();
-            this.sprites.drawAllOn(d);
-            gui.show(d);
-            this.sprites.notifyAllTimePassed();
-
-            // timing
-            long usedTime = System.currentTimeMillis() - startTime;
-            long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
-            if (milliSecondLeftToSleep > 0) {
-                sleeper.sleepFor(milliSecondLeftToSleep);
-            }
-
-            if (blockRemover.getAmountRemained() == 0) {
-                score.increase(100);
-                running = false;
-            }
-
-            if (ballRemover.getAmountRemained() == 0) {
-                running = false;
-            }
-        }
-        sleeper.sleepFor(millisecondsPerFrame);
+        createBalls();
+        this.runner.run(this);
         gui.close();
+    }
+
+    @Override
+    public void doOneFrame(DrawSurface d) {
+        this.sprites.drawAllOn(d);
+        this.sprites.notifyAllTimePassed();
+        if (blockRemover.getAmountRemained() == 0) {
+            score.increase(100);
+            this.running = false;
+        }
+
+        if (ballRemover.getAmountRemained() == 0) {
+            this.running = false;
+        }
+
+        if (sensor.isPressed("p")) {
+            runner.run(new KeyPressedStoppableAnimation("k", sensor,
+                    new PauseScreen()));
+        }
+    }
+
+    @Override
+    public boolean shouldStop() {
+        return !this.running;
     }
 }
