@@ -10,13 +10,11 @@ import Objects.Ball;
 import Objects.Block;
 import Objects.Paddle;
 import Screens.CountDownAnimation;
-import Screens.EndScreen;
 import Screens.KeyPressedStoppableAnimation;
 import Screens.PauseScreen;
 import Utils.Counter;
 import Utils.Velocity;
 import biuoop.DrawSurface;
-import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
 import Utils.Constants;
@@ -48,8 +46,6 @@ public class GameLevel implements Animation {
 
     private Counter score;
 
-    private GUI gui;
-
     private Sleeper sleeper;
 
     private List<Color> colors;
@@ -63,21 +59,21 @@ public class GameLevel implements Animation {
     /**
      * Constructor.
      */
-    public GameLevel(LevelInformation currentLevel) {
-        this.gui = new GUI("Game", Constants.WIDTH, Constants.HEIGHT);
-        this.sensor = gui.getKeyboardSensor();
+    public GameLevel(LevelInformation currentLevel, KeyboardSensor sensor,
+                     AnimationRunner runner, Counter score, Counter lives) {
+        this.sensor = sensor;
         this.sleeper = new Sleeper();
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
         this.currentLevel = currentLevel;
         this.blocksCounter = new Counter(Constants.INITIAL_NUM_BLOCKS);
         this.blockRemover = new BlockRemover(this, blocksCounter);
-        this.lives = new Counter(currentLevel.numberOfBalls());
+        this.lives = lives;
         this.ballRemover = new BallRemover(this, lives);
-        this.score = new Counter(0);
+        this.score = score;
         this.scoreTrackingListener = new ScoreTrackingListener(score);
         this.running = true;
-        this.runner = new AnimationRunner(gui);
+        this.runner = runner;
     }
 
     /**
@@ -219,14 +215,7 @@ public class GameLevel implements Animation {
         this.runner.run(new CountDownAnimation(3, 3, sprites));
         createBalls();
         this.runner.run(this);
-        if (lives.getValue() == 0) {
-            this.runner.run(new EndScreen("Game Over.", score.getValue(),
-                    sensor));
-        } else {
-            this.runner.run(new EndScreen("You Win!", score.getValue(),
-                    sensor));
-        }
-        gui.close();
+
     }
 
     @Override
@@ -248,6 +237,12 @@ public class GameLevel implements Animation {
         }
     }
 
+    /**
+     * @return amount of balls remained.
+     * */
+    public int lives() {
+        return lives.getValue();
+    }
     @Override
     public boolean shouldStop() {
         return !this.running;
