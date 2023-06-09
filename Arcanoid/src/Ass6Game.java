@@ -1,6 +1,7 @@
 import Game.AnimationRunner;
 import Game.GameFlow;
 import Game.GameLevel;
+import Levels.DirectHit;
 import Levels.Green3;
 import Levels.LevelInformation;
 import Utils.Constants;
@@ -23,7 +24,7 @@ public class Ass6Game {
         GUI gui = new GUI("Arcanoid", Constants.WIDTH, Constants.HEIGHT);
         AnimationRunner runner = new AnimationRunner(gui);
         GameFlow gameFlow = new GameFlow(gui.getKeyboardSensor(), runner);
-        LevelInformation[] levelTypes = {new Green3()};
+        LevelInformation[] levelTypes = {new Green3(), new DirectHit()};
         List<LevelInformation> levels = new ArrayList<>();
         for (String s: a) {
             try {

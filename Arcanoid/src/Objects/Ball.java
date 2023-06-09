@@ -136,6 +136,8 @@ public class Ball implements Sprite, InGameObject {
     public void drawOn(DrawSurface surface) {
         surface.setColor(color);
         surface.fillCircle((int) Math.round(getX()), (int) Math.round(getY()), Math.round(r));
+        surface.setColor(Color.black);
+        surface.drawCircle((int) Math.round(getX()), (int) Math.round(getY()), Math.round(r));
     }
 
     /**

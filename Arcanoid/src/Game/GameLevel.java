@@ -66,7 +66,7 @@ public class GameLevel implements Animation {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
         this.currentLevel = currentLevel;
-        this.blocksCounter = new Counter(Constants.INITIAL_NUM_BLOCKS);
+        this.blocksCounter = new Counter(currentLevel.numberOfBlocksToRemove());
         this.blockRemover = new BlockRemover(this, blocksCounter);
         this.lives = lives;
         this.ballRemover = new BallRemover(this, lives);
@@ -161,7 +161,7 @@ public class GameLevel implements Animation {
         List<Velocity> velocities = currentLevel.initialBallVelocities();
         List<Ball> balls = new ArrayList<>();
         for (int i = 0; i < currentLevel.numberOfBalls(); ++i) {
-            balls.add(new Ball(new Point(400, 480), Constants.R, Color.BLACK,
+            balls.add(new Ball(new Point(370, 480), Constants.R, Color.WHITE,
                     environment));
         }
         for (int i = 0; i < currentLevel.numberOfBalls(); ++i) {
@@ -180,7 +180,8 @@ public class GameLevel implements Animation {
         addSprite(currentLevel.getBackground());
 
         //paddle - rectangle
-        Rectangle paddle = new Rectangle(new Point(370, 500), currentLevel.paddleWidth(),
+        Rectangle paddle = new Rectangle(new Point(340, 500),
+                currentLevel.paddleWidth(),
                 15);
         new Paddle(sensor, paddle, Color.yellow, currentLevel.paddleSpeed()).addToGame(this);
 
@@ -233,7 +234,7 @@ public class GameLevel implements Animation {
 
         if (sensor.isPressed("p")) {
             runner.run(new KeyPressedStoppableAnimation("k", sensor,
-                    new PauseScreen()));
+                    new PauseScreen(sprites)));
         }
     }
 
@@ -242,6 +243,13 @@ public class GameLevel implements Animation {
      * */
     public int lives() {
         return lives.getValue();
+    }
+
+    /**
+     * @return amount of blocks remained.
+     * */
+    public int blocksNum() {
+        return blocksCounter.getValue();
     }
     @Override
     public boolean shouldStop() {

@@ -6,11 +6,21 @@ import biuoop.DrawSurface;
 
 import java.awt.*;
 
+/**
+ * Name: Bar Ben Hamou.<br>
+ * id number: 330591207.<br>
+ * Background green.
+ */
 public class Green3Background implements Sprite {
 
     private Color colorObj;
     private Color colorBack;
 
+    /**
+     * Constructor.<br>
+     *
+     * @param colorObj color for other objects.
+     * */
     public Green3Background(Color colorObj) {
         this.colorBack = Color.green;
         this.colorObj = colorObj;

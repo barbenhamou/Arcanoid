@@ -17,7 +17,7 @@ public class GameFlow {
     private Counter score;
     private Counter lives;
     private AnimationRunner runner;
-    private static final int INITIAL_LIVES = 2;
+    private static final int INITIAL_LIVES = 1;
 
     /**
      * Constructor.<br>
@@ -39,6 +39,9 @@ public class GameFlow {
                     lives);
             level.initialize();
             level.run();
+            if(level.blocksNum() == 0) {
+                break;
+            }
             if (level.lives() == 0) {
                 won = false;
                 break;
