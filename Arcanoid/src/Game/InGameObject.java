@@ -11,12 +11,12 @@ public interface InGameObject {
      *
      * @param g the game object.
      */
-    void addToGame(Game g);
+    void addToGame(GameLevel g);
 
     /**
      * Remove a thing from the game.<br>
      *
      * @param g the game object.
      */
-    void removeFromGame(Game g);
+    void removeFromGame(GameLevel g);
 }

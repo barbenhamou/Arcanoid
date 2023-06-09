@@ -2,7 +2,6 @@ package HitListener;
 
 import Objects.Sprite;
 import Utils.Constants;
-import Utils.Counter;
 import biuoop.DrawSurface;
 
 import java.awt.Color;
@@ -10,10 +9,10 @@ import java.awt.Color;
 /**
  * Name: Bar Ben Hamou.<br>
  * id number: 330591207.<br>
- * The score indicator.
+ * The label class.
  */
-public class Indicator implements Sprite {
-    private Counter score;
+public class Label implements Sprite {
+    private String content;
     private int xValue;
     private String label;
 
@@ -21,11 +20,11 @@ public class Indicator implements Sprite {
      * Constructor.<br>
      *
      * @param label  the text label.
-     * @param score  the score.
+     * @param content What to present.
      * @param xValue the horizontal position.
      */
-    public Indicator(Counter score, int xValue, String label) {
-        this.score = score;
+    public Label(String content, int xValue, String label) {
+        this.content = content;
         this.xValue = xValue;
         this.label = label;
 
@@ -34,7 +33,7 @@ public class Indicator implements Sprite {
     @Override
     public void drawOn(DrawSurface d) {
         d.setColor(Color.BLACK);
-        d.drawText(xValue, Constants.Y_STATS, label + ": " + score.getValue(),
+        d.drawText(xValue, Constants.Y_STATS, label + ": " + content,
                 Constants.FONT);
     }
 

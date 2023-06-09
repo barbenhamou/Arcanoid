@@ -1,6 +1,6 @@
 package HitListener;
 
-import Game.Game;
+import Game.GameLevel;
 import Objects.Ball;
 import Objects.Block;
 import Utils.Counter;
@@ -11,7 +11,7 @@ import Utils.Counter;
  * A listener for remove a block.
  */
 public class BlockRemover implements HitListener {
-    private Game game;
+    private GameLevel game;
     private Counter remainedBlocks;
 
     /**
@@ -20,7 +20,7 @@ public class BlockRemover implements HitListener {
      * @param game           the game object of the program.
      * @param remainedBlocks the number of blocks remained.
      */
-    public BlockRemover(Game game, Counter remainedBlocks) {
+    public BlockRemover(GameLevel game, Counter remainedBlocks) {
         this.game = game;
         this.remainedBlocks = remainedBlocks;
     }

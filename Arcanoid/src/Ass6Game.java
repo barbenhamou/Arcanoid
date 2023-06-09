@@ -1,4 +1,5 @@
-import Game.Game;
+import Game.GameLevel;
+import Levels.Green3;
 
 /**
  * Name: Bar Ben Hamou.<br>
@@ -11,7 +12,7 @@ public class Ass6Game {
      * @param a arguments from main.
      * */
     public static void main(String[] a) {
-        Game game = new Game();
+        GameLevel game = new GameLevel(new Green3());
         game.initialize();
         game.run();
     }

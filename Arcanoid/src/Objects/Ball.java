@@ -3,7 +3,7 @@ package Objects;
 import AbstractShapes.Line;
 import AbstractShapes.Point;
 import Game.CollisionInfo;
-import Game.Game;
+import Game.GameLevel;
 import Game.GameEnvironment;
 import Game.InGameObject;
 import Utils.Velocity;
@@ -164,12 +164,12 @@ public class Ball implements Sprite, InGameObject {
     }
 
     @Override
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
     }
 
     @Override
-    public void removeFromGame(Game g) {
+    public void removeFromGame(GameLevel g) {
         g.removeSprite(this);
     }
 

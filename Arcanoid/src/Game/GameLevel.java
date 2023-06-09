@@ -2,10 +2,8 @@ package Game;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
-import HitListener.BallRemover;
-import HitListener.BlockRemover;
-import HitListener.Indicator;
-import HitListener.ScoreTrackingListener;
+import HitListener.*;
+import Levels.LevelInformation;
 import Objects.Collidable;
 import Objects.Sprite;
 import Objects.Ball;
@@ -16,6 +14,7 @@ import Screens.EndScreen;
 import Screens.KeyPressedStoppableAnimation;
 import Screens.PauseScreen;
 import Utils.Counter;
+import Utils.Velocity;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
@@ -31,7 +30,7 @@ import java.util.List;
  * id number: 330591207.<br>
  * The game main program.
  */
-public class Game implements Animation {
+public class GameLevel implements Animation {
     private SpriteCollection sprites;
     private GameEnvironment environment;
 
@@ -40,6 +39,8 @@ public class Game implements Animation {
     private BallRemover ballRemover;
 
     private ScoreTrackingListener scoreTrackingListener;
+
+    private LevelInformation currentLevel;
 
     private Counter blocksCounter;
 
@@ -62,15 +63,16 @@ public class Game implements Animation {
     /**
      * Constructor.
      */
-    public Game() {
+    public GameLevel(LevelInformation currentLevel) {
         this.gui = new GUI("Game", Constants.WIDTH, Constants.HEIGHT);
         this.sensor = gui.getKeyboardSensor();
         this.sleeper = new Sleeper();
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
+        this.currentLevel = currentLevel;
         this.blocksCounter = new Counter(Constants.INITIAL_NUM_BLOCKS);
         this.blockRemover = new BlockRemover(this, blocksCounter);
-        this.lives = new Counter(Constants.INITIAL_NUM_BALLS);
+        this.lives = new Counter(currentLevel.numberOfBalls());
         this.ballRemover = new BallRemover(this, lives);
         this.score = new Counter(0);
         this.scoreTrackingListener = new ScoreTrackingListener(score);
@@ -160,23 +162,16 @@ public class Game implements Animation {
     }
 
     public void createBalls() {
-        //ball1
-        Ball ball1 = new Ball(new Point(400, 480), Constants.R, Color.BLACK,
-                environment);
-        ball1.addToGame(this);
-        ball1.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
-
-        //ball2
-        Ball ball2 = new Ball(new Point(360, 480), Constants.R, Color.YELLOW,
-                environment);
-        ball2.addToGame(this);
-        ball2.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
-
-        //ball3
-        Ball ball3 = new Ball(new Point(350, 480), Constants.R, Color.RED,
-                environment);
-        ball3.addToGame(this);
-        ball3.setVelocity(Constants.BALL_SPEED[0], Constants.BALL_SPEED[1]);
+        List<Velocity> velocities = currentLevel.initialBallVelocities();
+        List<Ball> balls = new ArrayList<>();
+        for (int i = 0; i < currentLevel.numberOfBalls(); ++i) {
+            balls.add(new Ball(new Point(400, 480), Constants.R, Color.BLACK,
+                    environment));
+        }
+        for (int i = 0; i < currentLevel.numberOfBalls(); ++i) {
+            balls.get(i).setVelocity(velocities.get(i));
+            balls.get(i).addToGame(this);
+        }
     }
 
     public void initialize() {
@@ -186,36 +181,34 @@ public class Game implements Animation {
         //boundaries and death
         addBoundariesAndDeath();
 
-        //background - rectangle
-        Rectangle back = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
-                2 * Constants.BLOCK_THICKNESS),
-                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
-                Constants.HEIGHT - 3 * Constants.BLOCK_THICKNESS);
-        new Block(back, Color.BLUE).addToGame(this);
+        addSprite(currentLevel.getBackground());
 
         //paddle - rectangle
-        Rectangle paddle = new Rectangle(new Point(370, 500), 120, 15);
-        new Paddle(sensor, paddle, Color.yellow, Constants.PADDLE_SPEED).addToGame(this);
+        Rectangle paddle = new Rectangle(new Point(370, 500), currentLevel.paddleWidth(),
+                15);
+        new Paddle(sensor, paddle, Color.yellow, currentLevel.paddleSpeed()).addToGame(this);
 
         //Score
         Indicator scoreIndicator = new Indicator(score, Constants.X_SCORE, "SCORE");
         addSprite(scoreIndicator);
 
-        Color c;
-        //blocks
-        int common = 150, width = 50, height = 30;
-        for (int i = 12; i > 6; --i) {
-            c = colors.remove(0);
-            for (int j = 0; j < i; ++j) {
-                Rectangle rect = new Rectangle(
-                        new Point(Constants.WIDTH - 30 - width - 1 - j * (width + 1), common), width, height);
-                Block block = new Block(rect, c);
-                block.addToGame(this);
+        //Lives
+        Indicator livesIndicator = new Indicator(lives, Constants.X_LIVES,
+                "LIVES");
+        addSprite(livesIndicator);
+
+        //Level name
+        Label levelNameLabel = new Label(currentLevel.levelName(),
+                Constants.X_NAME, "LEVEL NAME");
+        addSprite(levelNameLabel);
+
+        List<Block> blocks = currentLevel.blocks();
+        for (Block block: blocks) {
+            if (!block.getColor().equals(Color.gray)) {
                 block.addHitListener(blockRemover);
                 block.addHitListener(scoreTrackingListener);
             }
-            common += height + 1;
-
+            block.addToGame(this);
         }
     }
 

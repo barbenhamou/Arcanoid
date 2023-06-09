@@ -2,7 +2,7 @@ package Objects;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
-import Game.Game;
+import Game.GameLevel;
 import Utils.Constants;
 import Utils.Velocity;
 import biuoop.DrawSurface;
@@ -82,13 +82,13 @@ public class Paddle implements Sprite, Collidable, InGameObject {
     }
 
     @Override
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }
 
     @Override
-    public void removeFromGame(Game g) {
+    public void removeFromGame(GameLevel g) {
         g.removeSprite(this);
         g.removeCollidable(this);
     }
@@ -108,10 +108,23 @@ public class Paddle implements Sprite, Collidable, InGameObject {
         if (x == rect.getUpperLeft().getX()) {
             return 1;
         }
+
+        if (x <= rect.getUpperLeft().getX() + rect.width() / 5) {
+            return 2;
+        }
+
+        if (x <= rect.getUpperLeft().getX() + rect.width() / 2) {
+            return 3;
+        }
+
+        if (x <= rect.getUpperLeft().getX() + 4 * rect.width() / 5) {
+            return 2;
+        }
+
         if (x == rect.getUpperRight().getX()) {
             return 5;
         }
-        return (int) ((x - rect.getUpperLeft().getX()) / (rect.width() / 5)) + 1;
+        return 0;
     }
 
     @Override

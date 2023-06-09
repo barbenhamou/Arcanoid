@@ -2,7 +2,7 @@ package Objects;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
-import Game.Game;
+import Game.GameLevel;
 import HitListener.HitListener;
 import HitListener.HitNotifier;
 import Utils.UtilsFunctions;
@@ -40,6 +40,13 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
     @Override
     public Rectangle getCollisionRectangle() {
         return block;
+    }
+
+    /**
+     * @return the color of the block.
+     * */
+    public Color getColor() {
+        return this.color;
     }
 
     @Override
@@ -81,13 +88,13 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
     }
 
     @Override
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }
 
     @Override
-    public void removeFromGame(Game g) {
+    public void removeFromGame(GameLevel g) {
         g.removeCollidable(this);
         g.removeSprite(this);
         hitListeners.clear();
@@ -107,7 +114,7 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
      * Notify that a hit in this object occurred.<br>
      *
      * @param hitter the ball that hit this object.
-     * */
+     */
     private void notifyHit(Ball hitter) {
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
 
