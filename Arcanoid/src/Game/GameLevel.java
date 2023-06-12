@@ -132,9 +132,9 @@ public class GameLevel implements Animation {
 
     public void addBoundariesAndDeath() {
         //death block
-        Rectangle death = new Rectangle(new Point(0, Constants.Y_DEATH_RANGE),
+        Rectangle death = new Rectangle(currentLevel.death(),
                 Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
-                Constants.BLOCK_THICKNESS);
+                currentLevel.deathHeight());
         Block deathBlock = new Block(death, Color.blue);
         deathBlock.addToGame(this);
         deathBlock.addHitListener(ballRemover);
@@ -161,7 +161,8 @@ public class GameLevel implements Animation {
         List<Velocity> velocities = currentLevel.initialBallVelocities();
         List<Ball> balls = new ArrayList<>();
         for (int i = 0; i < currentLevel.numberOfBalls(); ++i) {
-            balls.add(new Ball(new Point(370, 480), Constants.R, Color.WHITE,
+            balls.add(new Ball(currentLevel.centers().get(i), Constants.R,
+                    Color.WHITE,
                     environment));
         }
         for (int i = 0; i < currentLevel.numberOfBalls(); ++i) {
@@ -180,7 +181,7 @@ public class GameLevel implements Animation {
         addSprite(currentLevel.getBackground());
 
         //paddle - rectangle
-        Rectangle paddle = new Rectangle(new Point(340, 500),
+        Rectangle paddle = new Rectangle(currentLevel.paddle(),
                 currentLevel.paddleWidth(),
                 15);
         new Paddle(sensor, paddle, Color.yellow, currentLevel.paddleSpeed()).addToGame(this);
@@ -201,10 +202,8 @@ public class GameLevel implements Animation {
 
         List<Block> blocks = currentLevel.blocks();
         for (Block block: blocks) {
-            if (!block.getColor().equals(Color.gray)) {
-                block.addHitListener(blockRemover);
-                block.addHitListener(scoreTrackingListener);
-            }
+            block.addHitListener(blockRemover);
+            block.addHitListener(scoreTrackingListener);
             block.addToGame(this);
         }
     }

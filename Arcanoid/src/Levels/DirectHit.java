@@ -4,6 +4,7 @@ import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
 import Objects.Block;
 import Objects.Sprite;
+import Utils.Constants;
 import Utils.Velocity;
 
 import java.awt.*;
@@ -59,5 +60,29 @@ public class DirectHit implements LevelInformation {
     @Override
     public int numberOfBlocksToRemove() {
         return 1;
+    }
+
+    @Override
+    public List<Point> centers() {
+        List<Point> centers = new ArrayList<>();
+        for (int i = 0; i < numberOfBalls(); ++i) {
+            centers.add(new Point(370, 500));
+        }
+        return centers;
+    }
+
+    @Override
+    public Point paddle() {
+        return new Point(340, 500);
+    }
+
+    @Override
+    public Point death() {
+        return new Point(0, Constants.Y_DEATH_RANGE);
+    }
+
+    @Override
+    public int deathHeight() {
+        return Constants.BLOCK_THICKNESS;
     }
 }

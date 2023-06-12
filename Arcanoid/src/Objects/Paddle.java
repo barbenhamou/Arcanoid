@@ -51,11 +51,11 @@ public class Paddle implements Sprite, Collidable, InGameObject {
      * Moves the paddle right.
      */
     public void moveRight() {
-        Point newUpperRight = rect.getUpperLeft().addPoint(dx, 0);
-        if (newUpperRight.getX() >= Constants.WIDTH - Constants.BLOCK_THICKNESS) {
+        Point newUpperRight = rect.getUpperRight().addPoint(dx, 0);
+        if (newUpperRight.getX() > Constants.WIDTH - Constants.BLOCK_THICKNESS) {
             return;
         }
-        rect.setUpperLeft(newUpperRight);
+        rect.setUpperLeft(rect.getUpperLeft().addPoint(dx, 0));
     }
 
     @Override

@@ -71,4 +71,28 @@ public class Green3 implements LevelInformation {
     public int numberOfBlocksToRemove() {
         return blocks().size();
     }
+
+    @Override
+    public List<Point> centers() {
+        List<Point> centers = new ArrayList<>();
+        for (int i = 0; i < numberOfBalls(); ++i) {
+            centers.add(new Point(340, 500));
+        }
+        return centers;
+    }
+
+    @Override
+    public Point paddle() {
+        return new Point(340, 500);
+    }
+
+    @Override
+    public Point death() {
+        return new Point(0, Constants.Y_DEATH_RANGE);
+    }
+
+    @Override
+    public int deathHeight() {
+        return Constants.BLOCK_THICKNESS;
+    }
 }

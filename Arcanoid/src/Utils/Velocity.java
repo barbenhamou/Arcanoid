@@ -79,9 +79,10 @@ public class Velocity {
 
     /**
      * Rotating the velocity.<br>
+     *
      * @param rotateByDeg the angles.
      * @return the new velocity after rotation.
-     * */
+     */
     public Velocity rotateByDeg(int rotateByDeg) {
         double size = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
         double angle = Math.atan2(dy, dx);
@@ -123,5 +124,18 @@ public class Velocity {
         return new Velocity(dx, dy);
     }
 
-
+    /**
+     * @param minA the minimum angle.<br>
+     * @param maxA the maximum angle.<br>
+     * @param minS the minimum speed.<br>
+     * @param maxS the maximum speed.<br>
+     * @return random speed within the limits.
+     */
+    public static Velocity RandomFromRange(double minA, double maxA,
+                                           double minS, double maxS) {
+        return fromAngleAndSpeed(
+                minA + (maxA - minA) * Math.random(),
+                minS + (maxS - minS) * Math.random()
+        );
+    }
 }

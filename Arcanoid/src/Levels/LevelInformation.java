@@ -1,5 +1,6 @@
 package Levels;
 
+import AbstractShapes.Point;
 import Objects.Block;
 import Objects.Sprite;
 import Utils.Velocity;
@@ -57,4 +58,24 @@ public interface LevelInformation {
     // before the level is considered to be "cleared".
     // This number should be <= blocks.size();
     int numberOfBlocksToRemove();
+
+    /**
+     * @return the balls level centers.
+     * */
+    List<Point> centers();
+
+    /**
+     * @return top left point of the paddle.
+     * */
+    Point paddle();
+
+    /**
+     * @return top left point of the death block.
+     * */
+    Point death();
+
+    /**
+     * @return height of the death block.
+     * */
+    int deathHeight();
 }
