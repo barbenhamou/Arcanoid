@@ -132,7 +132,6 @@ public class Paddle implements Sprite, Collidable, InGameObject {
                         Velocity currentVelocity) {
         //if the ball hits the paddle side, mirror his movement.
         if (collisionPoint.getY() > rect.getUpperLeft().getY()) {
-            System.out.println("here");
             return new Velocity(-1 * currentVelocity.getDx(),
                     -1 * currentVelocity.getDy());
         }
