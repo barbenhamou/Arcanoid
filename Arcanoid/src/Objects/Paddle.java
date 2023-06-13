@@ -148,7 +148,7 @@ public class Paddle implements Sprite, Collidable, InGameObject {
         } else if (region == 5) {
             v = Velocity.fromAngleAndSpeed(60, currentVelocity.getSpeed());
         }
-        System.out.println(region);
+        
         return v;
     }
 

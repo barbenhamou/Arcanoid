@@ -153,9 +153,7 @@ public class Ball implements Sprite, InGameObject {
             collisionPoint = collisionInfo.collisionPoint();
             collisionObj = collisionInfo.collisionObject();
 
-            if (collisionPoint.distance(center) <= r) {
-                velocity = collisionObj.hit(this, collisionPoint, velocity);
-            }
+            velocity = collisionObj.hit(this, collisionPoint, velocity);
         }
         this.center = velocity.applyToPoint(this.center);
     }

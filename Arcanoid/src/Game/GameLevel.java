@@ -141,7 +141,8 @@ public class GameLevel implements Animation {
 
         //gray boundaries
         Rectangle up = new Rectangle(new Point(Constants.BLOCK_THICKNESS,
-                Constants.BLOCK_THICKNESS), Constants.WIDTH - Constants.BLOCK_THICKNESS,
+                Constants.BLOCK_THICKNESS),
+                Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
                 Constants.BLOCK_THICKNESS);
         Rectangle down = new Rectangle(new Point(0, Constants.HEIGHT - Constants.BLOCK_THICKNESS),
                 Constants.WIDTH, Constants.BLOCK_THICKNESS);
