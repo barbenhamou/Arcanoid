@@ -60,6 +60,9 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
                 || UtilsFunctions.approxiEquals(collisionPoint.getX(),
                 block.getUpperRight().getX())) {
             dx *= -1;
+            if (isInBlock(collisionPoint)) {
+                System.out.println("hi");
+            }
         } else if (UtilsFunctions.approxiEquals(collisionPoint.getY(),
                 block.getUpperLeft().getY())
                 || UtilsFunctions.approxiEquals(collisionPoint.getY(),
@@ -68,6 +71,11 @@ public class Block implements Collidable, Sprite, InGameObject, HitNotifier {
         }
         this.notifyHit(hitter);
         return new Velocity(dx, dy);
+    }
+
+
+    private boolean isInBlock(Point hitter) {
+        return block.getUpperLeft().getX() < hitter.getX() && hitter.getX() < block.getUpperRight().getX() && hitter.getY() > block.getUpperRight().getY() && hitter.getY() < block.getLowerLeft().getY();
     }
 
     @Override

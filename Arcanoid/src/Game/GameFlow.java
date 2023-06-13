@@ -17,7 +17,7 @@ public class GameFlow {
     private Counter score;
     private Counter lives;
     private AnimationRunner runner;
-    private static final int INITIAL_LIVES = 10;
+    private static final int INITIAL_LIVES = 2;
 
     /**
      * Constructor.<br>

@@ -232,7 +232,7 @@ public class Line {
      */
     public Point closestIntersectionPoint(Rectangle rect) {
         List<Point> intersections = rect.intersectionPoints(this);
-        double minDistance = rect.getUpperLeft().distance(rect.getLowerRight());
+        double minDistance = 800;
         Point minDistanceP = null;
         for (Point p : intersections) {
             if (p.distance(start) <= minDistance) {

@@ -105,23 +105,23 @@ public class Paddle implements Sprite, Collidable, InGameObject {
      * @return the region of the hit
      */
     public int region(double x) {
-        if (x == rect.getUpperLeft().getX()) {
+        if (x <= rect.getUpperLeft().getX() + rect.width() / 5) {
             return 1;
         }
 
-        if (x <= rect.getUpperLeft().getX() + rect.width() / 5) {
+        if (x <= rect.getUpperLeft().getX() + 2 * rect.width() / 5) {
             return 2;
         }
 
-        if (x <= rect.getUpperLeft().getX() + rect.width() / 2) {
+        if (x <= rect.getUpperLeft().getX() + 3 * rect.width() / 5) {
             return 3;
         }
 
         if (x <= rect.getUpperLeft().getX() + 4 * rect.width() / 5) {
-            return 2;
+            return 4;
         }
 
-        if (x == rect.getUpperRight().getX()) {
+        if (x <= rect.getUpperLeft().getX() + 5 * rect.width() / 5) {
             return 5;
         }
         return 0;
@@ -131,27 +131,26 @@ public class Paddle implements Sprite, Collidable, InGameObject {
     public Velocity hit(Ball hitter, Point collisionPoint,
                         Velocity currentVelocity) {
         //if the ball hits the paddle side, mirror his movement.
-        if (collisionPoint.getY() <= rect.getUpperLeft().getY()
-                || collisionPoint.getX() < rect.getUpperLeft().getX()
-                || collisionPoint.getX() > rect.getUpperRight().getX()) {
+        if (collisionPoint.getY() > rect.getUpperLeft().getY()) {
+            System.out.println("here");
             return new Velocity(-1 * currentVelocity.getDx(),
                     -1 * currentVelocity.getDy());
         }
         int region = region(collisionPoint.getX());
-        int rotateByDeg = 180;
+        Velocity v = new Velocity(0, 0);
         if (region == 1) {
-            rotateByDeg = -60;
+            v = Velocity.fromAngleAndSpeed(300, currentVelocity.getSpeed());
         } else if (region == 2) {
-            rotateByDeg = -30;
+            v = Velocity.fromAngleAndSpeed(330, currentVelocity.getSpeed());
         } else if (region == 3) {
-            return new Velocity(currentVelocity.getDx(),
-                    -1 * currentVelocity.getDy());
+            v = new Velocity(currentVelocity.getDx(), -currentVelocity.getDy());
         } else if (region == 4) {
-            rotateByDeg = 30;
+            v = Velocity.fromAngleAndSpeed(30, currentVelocity.getSpeed());
         } else if (region == 5) {
-            rotateByDeg = 60;
+            v = Velocity.fromAngleAndSpeed(60, currentVelocity.getSpeed());
         }
-        return currentVelocity.rotateByDeg(-rotateByDeg);
+        System.out.println(region);
+        return v;
     }
 
 }

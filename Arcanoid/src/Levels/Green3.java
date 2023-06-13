@@ -24,8 +24,8 @@ public class Green3 implements LevelInformation {
     @Override
     public List<Velocity> initialBallVelocities() {
         List<Velocity> velocities = new ArrayList<>();
-        velocities.add(new Velocity(5, 5));
-        velocities.add(new Velocity(-5, 5));
+        velocities.add(new Velocity(-2, -2));
+        velocities.add(new Velocity(2, -2));
         return velocities;
     }
 
@@ -76,7 +76,7 @@ public class Green3 implements LevelInformation {
     public List<Point> centers() {
         List<Point> centers = new ArrayList<>();
         for (int i = 0; i < numberOfBalls(); ++i) {
-            centers.add(new Point(340, 500));
+            centers.add(new Point(370, 494));
         }
         return centers;
     }

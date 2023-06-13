@@ -31,7 +31,6 @@ public class Ass6Game {
             try {
                 int number = Integer.parseInt(s);
                 levels.add(levelTypes[number - 1]);
-                System.out.println(levels);
             } catch (NumberFormatException | IndexOutOfBoundsException ignore2) {}
         }
         gameFlow.runLevels(levels);
