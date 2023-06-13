@@ -71,7 +71,7 @@ public class WideEasy implements LevelInformation {
             } else {
                 c = Color.red;
             }
-            blocks.add(new Block(new Rectangle(new Point(30 + 49.333 * i, 225),
+            blocks.add(new Block(new Rectangle(new Point(30 + 49.333 * i, 250),
                     49.333, 25),
                     c));
         }
@@ -80,7 +80,7 @@ public class WideEasy implements LevelInformation {
 
     @Override
     public int numberOfBlocksToRemove() {
-        return 15;
+        return blocks().size();
     }
 
     @Override

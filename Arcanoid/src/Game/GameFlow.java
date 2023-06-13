@@ -39,9 +39,6 @@ public class GameFlow {
                     lives);
             level.initialize();
             level.run();
-            if(level.blocksNum() == 0) {
-                break;
-            }
             if (level.lives() == 0) {
                 won = false;
                 break;

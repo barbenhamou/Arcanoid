@@ -6,8 +6,6 @@ import Utils.Constants;
 import biuoop.DrawSurface;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Name: Bar Ben Hamou.<br>
@@ -23,14 +21,14 @@ public class WideEasyBackground implements Sprite {
                 Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,
                 Constants.HEIGHT - 3 * Constants.BLOCK_THICKNESS);
         d.setColor(Color.YELLOW);
-        d.fillCircle(125, 100, 60);
+        d.fillCircle(125, 150, 60);
         for (int i = 0; i < 15 * 6; ++i) {
-            d.drawLine(125, 100, 30 + 8 * i, 225);
+            d.drawLine(125, 150, 30 + 8 * i, 250);
         }
         d.setColor(Color.ORANGE);
-        d.fillCircle(125, 100, 25);
+        d.fillCircle(125, 150, 50);
         d.setColor(Color.red);
-        d.fillCircle(125, 100, 15);
+        d.fillCircle(125, 150, 40);
     }
 
     @Override

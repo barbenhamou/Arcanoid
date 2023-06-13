@@ -14,7 +14,7 @@ public class Constants {
     public static final int FONT = 20;
     public static final int Y_STATS = 25;
     public static final int X_SCORE = 20;
-    public static final int X_NAME = 580;
+    public static final int X_NAME = 560;
     public static final int X_LIVES = 330;
     public static final int R = 8;
 }
