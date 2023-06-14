@@ -25,15 +25,22 @@ public class Ass6Game {
         GUI gui = new GUI("Arcanoid", Constants.WIDTH, Constants.HEIGHT);
         AnimationRunner runner = new AnimationRunner(gui);
         GameFlow gameFlow = new GameFlow(gui.getKeyboardSensor(), runner);
+        boolean working = false;
         LevelInformation[] levelTypes = {new DirectHit(), new WideEasy(), new Green3()};
         List<LevelInformation> levels = new ArrayList<>();
         for (String s : a) {
             try {
                 int number = Integer.parseInt(s);
                 levels.add(levelTypes[number - 1]);
+                working = true;
             } catch (NumberFormatException
                      | IndexOutOfBoundsException ignore2) {
             }
+        }
+        if (!working) {
+            levels.add(levelTypes[0]);
+            levels.add(levelTypes[1]);
+            levels.add(levelTypes[2]);
         }
         gameFlow.runLevels(levels);
         gui.close();
