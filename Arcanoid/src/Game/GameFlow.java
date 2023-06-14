@@ -31,6 +31,11 @@ public class GameFlow {
         this.score = new Counter(0);
     }
 
+    /**
+     * Runs the levels.<br>
+     *
+     * @param levels the levels od the game.
+     */
     public void runLevels(List<LevelInformation> levels) {
         boolean won = true;
         for (LevelInformation levelInfo : levels) {

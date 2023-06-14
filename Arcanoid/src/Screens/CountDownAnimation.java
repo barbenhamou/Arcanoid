@@ -4,7 +4,7 @@ import Game.Animation;
 import Game.SpriteCollection;
 import biuoop.DrawSurface;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Name: Bar Ben Hamou.<br>
@@ -17,6 +17,13 @@ public class CountDownAnimation implements Animation {
     private int countFrom;
     private SpriteCollection game;
 
+    /**
+     * Constructor.<br>
+     *
+     * @param game         the sprite collection.
+     * @param countFrom    from when to start.
+     * @param numOfSeconds how much time should it take.
+     */
     public CountDownAnimation(double numOfSeconds, int countFrom,
                               SpriteCollection game) {
         this.numOfSeconds = numOfSeconds;

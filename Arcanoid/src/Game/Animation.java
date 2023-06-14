@@ -16,7 +16,7 @@ public interface Animation {
     void doOneFrame(DrawSurface d);
 
     /**
-     * Determining whether the animation should stop.
+     * @return whether the animation should stop.
      */
     boolean shouldStop();
 

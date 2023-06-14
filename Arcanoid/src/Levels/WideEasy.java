@@ -26,7 +26,7 @@ public class WideEasy implements LevelInformation {
     public List<Velocity> initialBallVelocities() {
         List<Velocity> velocities = new ArrayList<>();
         for (int i = 0; i < 10; ++i) {
-            velocities.add(Velocity.fromAngleAndSpeed(-75 + 15 * (i + 1) , 5));
+            velocities.add(Velocity.fromAngleAndSpeed(-75 + 15 * (i + 1), 5));
         }
         return velocities;
     }

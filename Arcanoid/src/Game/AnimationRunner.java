@@ -8,7 +8,7 @@ import biuoop.Sleeper;
  * Name: Bar Ben Hamou.<br>
  * id number: 330591207.<br>
  * The animation runner.
- * */
+ */
 public class AnimationRunner {
     private GUI gui;
     private Sleeper sleeper;
@@ -17,7 +17,7 @@ public class AnimationRunner {
      * Constructor.<br>
      *
      * @param gui the gui object.
-     * */
+     */
     public AnimationRunner(GUI gui) {
         this.gui = gui;
         this.sleeper = new Sleeper();
@@ -27,9 +27,9 @@ public class AnimationRunner {
      * Run the animation.<br>
      *
      * @param animation the animation we want to run.
-     * */
+     */
     public void run(Animation animation) {
-        int millisecondsPerFrame = 1000 / (int)animation.framePerSecond();
+        int millisecondsPerFrame = 1000 / (int) animation.framePerSecond();
         while (!animation.shouldStop()) {
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();

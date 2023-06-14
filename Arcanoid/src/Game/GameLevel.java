@@ -2,7 +2,11 @@ package Game;
 
 import AbstractShapes.Point;
 import AbstractShapes.Rectangle;
-import HitListener.*;
+import HitListener.BallRemover;
+import HitListener.BlockRemover;
+import HitListener.Label;
+import HitListener.Indicator;
+import HitListener.ScoreTrackingListener;
 import Levels.LevelInformation;
 import Objects.Collidable;
 import Objects.Sprite;
@@ -58,6 +62,12 @@ public class GameLevel implements Animation {
 
     /**
      * Constructor.
+     *
+     * @param currentLevel the current level.
+     * @param runner       the animation runner object.
+     * @param score        the current score counter.
+     * @param lives        the number of balls(Counter).
+     * @param sensor       the keyboard sensor.
      */
     public GameLevel(LevelInformation currentLevel, KeyboardSensor sensor,
                      AnimationRunner runner, Counter score, Counter lives) {
@@ -158,6 +168,9 @@ public class GameLevel implements Animation {
         new Block(right, Color.gray).addToGame(this);
     }
 
+    /**
+     * Initializing the balls.<br>
+     */
     public void createBalls() {
         List<Velocity> velocities = currentLevel.initialBallVelocities();
         List<Ball> balls = new ArrayList<>();
@@ -172,6 +185,9 @@ public class GameLevel implements Animation {
         }
     }
 
+    /**
+     * Initializing the game.<br>
+     **/
     public void initialize() {
         //colors
         initialColors();
@@ -197,7 +213,7 @@ public class GameLevel implements Animation {
         addSprite(levelNameLabel);
 
         List<Block> blocks = currentLevel.blocks();
-        for (Block block: blocks) {
+        for (Block block : blocks) {
             block.addHitListener(blockRemover);
             block.addHitListener(scoreTrackingListener);
             block.addToGame(this);
@@ -235,17 +251,18 @@ public class GameLevel implements Animation {
 
     /**
      * @return amount of balls remained.
-     * */
+     */
     public int lives() {
         return lives.getValue();
     }
 
     /**
      * @return amount of blocks remained.
-     * */
+     */
     public int blocksNum() {
         return blocksCounter.getValue();
     }
+
     @Override
     public boolean shouldStop() {
         return !this.running;

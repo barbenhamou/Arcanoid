@@ -1,10 +1,9 @@
 package Screens;
 
 import Game.Animation;
-import Game.SpriteCollection;
 import biuoop.DrawSurface;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Name: Bar Ben Hamou.<br>

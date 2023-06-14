@@ -4,7 +4,7 @@ import Objects.Sprite;
 import Utils.Constants;
 import biuoop.DrawSurface;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Name: Bar Ben Hamou.<br>

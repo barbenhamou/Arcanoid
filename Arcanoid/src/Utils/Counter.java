@@ -12,7 +12,7 @@ public class Counter {
      * Constructor.<br>
      *
      * @param value the initial value that the counter counts.
-     * */
+     */
     public Counter(int value) {
         this.value = value;
     }
@@ -21,7 +21,7 @@ public class Counter {
      * Increases value by the number given.<br>
      *
      * @param number the wanted change.
-     * */
+     */
     public void increase(int number) {
         this.value += number;
     }
@@ -30,7 +30,7 @@ public class Counter {
      * Decreases value by the number given.<br>
      *
      * @param number the wanted change.
-     * */
+     */
     public void decrease(int number) {
         this.value -= number;
     }
@@ -39,7 +39,7 @@ public class Counter {
      * The current value.<br>
      *
      * @return the number.
-     * */
+     */
     public int getValue() {
         return this.value;
     }
@@ -48,6 +48,8 @@ public class Counter {
      * Setting the value to whatever I'd like.<br>
      *
      * @param value the number i want.
-     * */
-    public void setValue(int value) {this.value = value;}
+     */
+    public void setValue(int value) {
+        this.value = value;
+    }
 }

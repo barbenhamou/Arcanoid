@@ -1,6 +1,5 @@
 package Levels;
 
-import AbstractShapes.Line;
 import Objects.Sprite;
 import Utils.Constants;
 import biuoop.DrawSurface;
