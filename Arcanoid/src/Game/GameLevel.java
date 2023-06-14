@@ -191,11 +191,6 @@ public class GameLevel implements Animation {
         Indicator scoreIndicator = new Indicator(score, Constants.X_SCORE, "SCORE");
         addSprite(scoreIndicator);
 
-        //Lives
-//        Indicator livesIndicator = new Indicator(lives, Constants.X_LIVES,
-//                "LIVES");
-//        addSprite(livesIndicator);
-
         //Level name
         Label levelNameLabel = new Label(currentLevel.levelName(),
                 Constants.X_NAME, "LEVEL NAME");
@@ -234,7 +229,7 @@ public class GameLevel implements Animation {
 
         if (sensor.isPressed("p")) {
             runner.run(new KeyPressedStoppableAnimation(KeyboardSensor.SPACE_KEY, sensor,
-                    new PauseScreen(sprites)));
+                    new PauseScreen()));
         }
     }
 

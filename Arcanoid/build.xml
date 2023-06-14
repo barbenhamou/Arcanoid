@@ -15,7 +15,10 @@
     </target>
 
     <target name="run" depends="compile" >
-        <java classname="Ass5Game" classpath="${classpath}" fork="true"/>
+        <java classname="Ass6Game" classpath="${classpath}" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
     </target>
 
     <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
@@ -26,6 +29,5 @@
             <fileset dir="src" includes="*/.java"/>
         </checkstyle>
     </target>
-
 
 </project>

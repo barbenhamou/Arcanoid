@@ -15,7 +15,7 @@ import java.awt.Color;
 public class WideEasyBackground implements Sprite {
     @Override
     public void drawOn(DrawSurface d) {
-        d.setColor(Color.WHITE);
+        d.setColor(Color.cyan);
         d.fillRectangle(Constants.BLOCK_THICKNESS,
                 2 * Constants.BLOCK_THICKNESS,
                 Constants.WIDTH - 2 * Constants.BLOCK_THICKNESS,

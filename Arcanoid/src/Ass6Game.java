@@ -25,7 +25,7 @@ public class Ass6Game {
         GUI gui = new GUI("Arcanoid", Constants.WIDTH, Constants.HEIGHT);
         AnimationRunner runner = new AnimationRunner(gui);
         GameFlow gameFlow = new GameFlow(gui.getKeyboardSensor(), runner);
-        LevelInformation[] levelTypes = {new Green3(), new DirectHit(), new WideEasy()};
+        LevelInformation[] levelTypes = { new DirectHit(), new WideEasy(), new Green3()};
         List<LevelInformation> levels = new ArrayList<>();
         for (String s: a) {
             try {
