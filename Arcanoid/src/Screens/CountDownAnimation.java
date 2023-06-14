@@ -4,6 +4,8 @@ import Game.Animation;
 import Game.SpriteCollection;
 import biuoop.DrawSurface;
 
+import java.awt.*;
+
 /**
  * Name: Bar Ben Hamou.<br>
  * id number: 330591207.<br>
@@ -26,6 +28,7 @@ public class CountDownAnimation implements Animation {
     @Override
     public void doOneFrame(DrawSurface d) {
         game.drawAllOn(d);
+        d.setColor(Color.blue);
         d.drawText(d.getWidth() / 2, d.getHeight() / 2, current-- + "...", 32);
     }
 

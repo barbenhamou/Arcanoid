@@ -43,4 +43,11 @@ public class Counter {
     public int getValue() {
         return this.value;
     }
+
+    /**
+     * Setting the value to whatever I'd like.<br>
+     *
+     * @param value the number i want.
+     * */
+    public void setValue(int value) {this.value = value;}
 }

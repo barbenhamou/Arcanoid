@@ -72,19 +72,4 @@ public class Velocity {
 
         return new Velocity(dx, dy);
     }
-
-    /**
-     * @param minA the minimum angle.<br>
-     * @param maxA the maximum angle.<br>
-     * @param minS the minimum speed.<br>
-     * @param maxS the maximum speed.<br>
-     * @return random speed within the limits.
-     */
-    public static Velocity RandomFromRange(double minA, double maxA,
-                                           double minS, double maxS) {
-        return fromAngleAndSpeed(
-                minA + (maxA - minA) * Math.random(),
-                minS + (maxS - minS) * Math.random()
-        );
-    }
 }

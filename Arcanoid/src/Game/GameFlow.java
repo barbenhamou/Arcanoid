@@ -17,7 +17,6 @@ public class GameFlow {
     private Counter score;
     private Counter lives;
     private AnimationRunner runner;
-    private static final int INITIAL_LIVES = 2;
 
     /**
      * Constructor.<br>
@@ -28,13 +27,14 @@ public class GameFlow {
     public GameFlow(KeyboardSensor sensor, AnimationRunner runner) {
         this.runner = runner;
         this.sensor = sensor;
-        this.lives = new Counter(INITIAL_LIVES);
+        this.lives = new Counter(0);
         this.score = new Counter(0);
     }
 
     public void runLevels(List<LevelInformation> levels) {
         boolean won = true;
         for (LevelInformation levelInfo : levels) {
+            lives.setValue(levelInfo.numberOfBalls());
             GameLevel level = new GameLevel(levelInfo, sensor, runner, score,
                     lives);
             level.initialize();
