@@ -11,7 +11,7 @@ public class Line {
     private Point start;
     private Point end;
 
-    static final int COLLINEAR = 0, RIGHT = 1, LEFT = 2;
+    static final double INF = Double.POSITIVE_INFINITY;
 
     /**
      * Constructor with points.
@@ -87,141 +87,94 @@ public class Line {
     }
 
     /**
-     * Name: isOnLine.<br>
-     *
-     * @param p - The point we'd like to examine.
-     * @return whether {@param p} is on the current line.
+     * @return the slope, if it doesn't exist then infinity.
      */
-    public boolean isOnLine(Point p) {
-        return p.getX() <= Math.max(start.getX(), end.getX()) && p.getX()
-                >= Math.min(start.getX(), end.getX())
-                && p.getY() <= Math.max(start.getY(), end.getY()) && p.getY()
-                >= Math.min(start.getY(), end.getY());
+    public double getSlope() {
+        return end.getX() == start.getX() ? INF
+                : (end.getY() - start.getY()) / (end.getX() - start.getX());
     }
 
     /**
-     * Name: relativity.<br>
-     * Calculation: <br>
-     * <p>
-     * Calculate the slopes between the edges of the current line and the
-     * {@param p}. After common denominator
-     * </p>
-     *
-     * @param p - The point we'd like to examine.
-     * @return the sort of relativity exist, 0 - collinear, 1 - clockwise,
-     * 2 - opposite of clockwise
+     * @return y intersection without taking into consideration the
+     * limits of the line.
      */
-    public int relativity(Point p) {
-        double slopeWithStart =
-                (p.getY() - start.getY()) * (p.getX() - end.getX());
-        double slopeWithEnd =
-                (p.getY() - end.getY()) * (p.getX() - start.getX());
-
-        if (slopeWithStart - slopeWithEnd == 0) {
-            return COLLINEAR;
+    public double getYIntersection() {
+        double slope = getSlope();
+        if (slope == INF) {
+            return INF;
         }
-
-        return slopeWithStart - slopeWithEnd > 0 ? RIGHT : LEFT;
+        return start.getY() - slope * start.getX();
     }
 
+    /**
+     * @param p point to check.<br>
+     * @return whether the given p is withing the line range.
+     */
+    public boolean betweenEdges(Point p) {
+        double maxX = Math.max(start.getX(), end.getX());
+        double maxY = Math.max(start.getY(), end.getY());
+        double minX = Math.min(start.getX(), end.getX());
+        double minY = Math.min(start.getY(), end.getY());
+        return p.getX() <= maxX && p.getX() >= minX && p.getY() <= maxY && p.getY() >= minY;
+    }
 
     /**
-     * Name: isIntersecting.<br>
-     * Action:<br>
-     * <p>
-     * From the formula, calculate the denominator of the fracture that
-     * represents the s and y of the intersection.
-     * Present the problem as a system of 3 points each time.
-     * Check the relativity of each edge in comparison to
-     * other two points, which represent one of the lines. For example,
-     * the point other.start relative to the
-     * current line.
-     * </p>
+     * Assigning the given x into the line equation.<br>
      *
-     * @param other - The line we'd like to examine.
-     * @return whether the current line and {@param other} intersects.
+     * @param x x value
+     * @return the outcome of the calculation.
+     */
+    public double assign(double x) {
+        return x * getSlope() + getYIntersection();
+    }
+
+    /**
+     * @param other the other line to check with.<br>
+     * @return whether the two lines intersect with each other.
      */
     public boolean isIntersecting(Line other) {
-        if (start.equals(end)) {
-            return other.isOnLine(start);
-        }
-        if (other.start.equals(other.end)) {
-            return isOnLine(other.end);
-        }
-
-        double denominator = (start.getX() - end.getX())
-                * (other.start.getY() - other.end.getY())
-                - (start.getY() - end.getY())
-                * (other.start.getX() - other.end.getX());
-
-        if (denominator == 0) {
-            if (other.isOnLine(start) || other.isOnLine(end)) {
-                return true;
-            }
-            return isOnLine(other.start) || isOnLine(other.end);
-        }
-
-        int relativity1 = relativity(other.start);
-        int relativity2 = relativity(other.end);
-        int relativity3 = other.relativity(start);
-        int relativity4 = other.relativity(end);
-
-        return relativity1 != relativity2 && relativity3 != relativity4;
+        return intersectionWith(other) != null;
     }
 
     /**
-     * Name: intersectionWith.<br>
-     * Action:<br>
-     * <p>
-     * Using the formula to calculate the intersection point.
-     * See: <a href="https://en.wikipedia.org/wiki/Line%E2%80%93
-     * line_intersection">...</a>
-     * </p>
-     *
-     * @param other - The line we'd like to examine.
-     * @return The point of intersection.
+     * @param other line to get intersection point with.<br>
+     * @return the intersection point with the given other line.
      */
     public Point intersectionWith(Line other) {
-        if (!isIntersecting(other)) {
+        double intersectionX, intersectionY;
+        if (getSlope() == other.getSlope()) {
+            // if the lines coincide, try to find the collision point between them
+            if (assign(other.start.getX()) == other.start.getY()) {
+                if (end.getX() < other.start.getX()) {
+                    return null;
+                }
+                intersectionX = Math.max(end.getX(), other.start.getX());
+                return new Point(intersectionX, assign(intersectionX));
+            }
             return null;
         }
-        //Checking whether one of the lines is a point
-        if (start.equals(end)) {
-            return start;
-        }
-        if (other.start.equals(other.end)) {
-            return other.start;
-        }
 
-        //Checking whether the intersection is one of the edges
-        if (other.start.equals(end)) {
-            return other.start;
-        }
-
-        if (start.equals(other.end)) {
-            return start;
+        if (getSlope() == INF || other.getSlope() == INF) {
+            // if one of the lines are parallel to y.
+            if (getSlope() == INF) {
+                intersectionX = start.getX();
+                intersectionY = other.assign(intersectionX);
+            } else {
+                intersectionX = other.start.getX();
+                intersectionY = assign(intersectionX);
+            }
+        } else {
+            intersectionX = (other.getYIntersection() - getYIntersection()) / (getSlope() - other.getSlope());
+            intersectionY = assign(intersectionX);
         }
 
-        double denominator = (start.getX() - end.getX())
-                * (other.start.getY() - other.end.getY())
-                - (start.getY() - end.getY())
-                * (other.start.getX() - other.end.getX());
-
-        double numeratorX =
-                (start.getX() * end.getY() - start.getY() * end.getX())
-                        * (other.start.getX() - other.end.getX())
-                        - (start.getX() - end.getX())
-                        * (other.start.getX() * other.end.getY()
-                        - other.start.getY() * other.end.getX());
-
-        double numeratorY =
-                (start.getX() * end.getY() - start.getY() * end.getX())
-                        * (other.start.getY() - other.end.getY())
-                        - (start.getY() - end.getY())
-                        * (other.start.getX() * other.end.getY()
-                        - other.start.getY() * other.end.getX());
-
-        return new Point(numeratorX / denominator, numeratorY / denominator);
+        // check if the point is in range of both line segments
+        Point intersection = new Point(intersectionX, intersectionY);
+        if (betweenEdges(intersection) && other.betweenEdges(intersection)) {
+            return intersection;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -232,7 +185,10 @@ public class Line {
      */
     public Point closestIntersectionPoint(Rectangle rect) {
         List<Point> intersections = rect.intersectionPoints(this);
-        double minDistance = rect.getUpperLeft().distance(rect.getLowerRight());
+        if (intersections.isEmpty()) {
+            return null;
+        }
+        double minDistance = this.start.distance(intersections.get(0));
         Point minDistanceP = null;
         for (Point p : intersections) {
             if (p.distance(start) <= minDistance) {
